@@ -1,0 +1,106 @@
+clear
+close all
+clc
+data=readtable("C:\Users\manue\Desktop\data_ramp_steer.csv");
+
+Vehicle.tau = 11.8;
+Vehicle.L = 2.82;
+
+
+deltaf_vec = data.driver_demands_driver_steering_angle ./ Vehicle.tau; % [deg]
+u = data.chassis_velocities_longitudinal;
+ay = -data.chassis_accelerations_lateral;
+
+sterzo_din = deg2rad(deltaf_vec) - ((Vehicle.L.*ay)./(u.^2));
+mu = max(ay);
+
+alfa_fl = data.Tire_Lateral_Slip_Without_Lag_L1;
+alfa_fr = data.Tire_Lateral_Slip_Without_Lag_L2;
+alfa_rl = data.Tire_Lateral_Slip_Without_Lag_R1;
+alfa_rr = data.Tire_Lateral_Slip_Without_Lag_R2;
+
+camber_fl = data.wheel_angles_camber_L1;
+camber_fr = data.wheel_angles_camber_R1;
+camber_rl = data.wheel_angles_camber_L2;
+camber_rr = data.wheel_angles_camber_R2;
+
+time = data.time_TIME;
+
+aero_balance = data.aero_forces_aero_balance;
+
+downforce_front = data.aero_forces_front_downforce;
+downforce_rear = data.aero_forces_rear_downforce;
+dragforce = data.aero_forces_drag_force;
+
+
+figure
+hold on
+plot(ay,rad2deg(sterzo_din));
+set(gca,'TickLabelInterpreter','latex');
+ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
+xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
+xlim([0 mu+0.1]);
+ylim([0 0.5]);
+yline(0,'--');
+
+title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
+txt = ['Rampsteer 60 [km/h]'];
+subtitle(txt,Interpreter='latex',fontsize=14);
+mu_txt = [' $\mu$ = ' , num2str(mu)];
+
+Grad = (diff(rad2deg(sterzo_din))./diff(ay));
+scatter(ay(10),Grad(10),'MarkerEdgeColor','blue','MarkerFaceColor','blue');
+
+
+Grad_txt = ['$\frac{d(\delta_D)}{d(ay/g)}$ = ' , num2str(Grad(10)),' [deg/g]'];
+legend('$\delta_D=\delta - \frac{L}{V^2}*a_y$','','',Grad_txt,Interpreter='latex',fontsize=14);
+
+figure()
+hold on
+set(gca,'TickLabelInterpreter','latex');
+plot(time,camber_fl);
+plot(time,camber_fr);
+plot(time,camber_rl);
+plot(time,camber_rr);
+legend('front left','front right','rear left','rear right');
+
+c_fl = rad2deg(camber_fl(1));
+c_fr = rad2deg(camber_fr(1));
+c_rl = rad2deg(camber_rl(1));
+c_rr = rad2deg(camber_rr(1));
+
+
+toe_fl = data.wheel_angles_toe_L1;
+toe_fr = data.wheel_angles_toe_R1;
+toe_rl = data.wheel_angles_toe_L2;
+toe_rr = data.wheel_angles_toe_R2;
+
+toe_mean = (toe_fl + toe_fr)
+
+
+figure()
+hold on
+set(gca,'TickLabelInterpreter','latex');
+plot(time,camber_fl);
+plot(time,camber_fr);
+plot(time,camber_rl);
+plot(time,camber_rr);
+legend('front left','front right','rear left','rear right');
+
+figure()
+hold on
+set(gca,'TickLabelInterpreter','latex');
+plot(time,toe_fl);
+plot(time,toe_fr);
+%plot(time,toe_rl);
+%plot(time,toe_rr);
+legend('front left','front right');
+
+figure()
+hold on
+set(gca,'TickLabelInterpreter','latex');
+%plot(time,aero_balance);
+plot(time,downforce_front);
+plot(time,downforce_rear);
+plot(time,dragforce);
+legend('front','rear','drag');
