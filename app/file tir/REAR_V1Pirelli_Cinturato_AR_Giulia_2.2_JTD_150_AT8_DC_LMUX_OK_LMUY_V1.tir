@@ -1,0 +1,295 @@
+[MDI_HEADER]
+FILE_TYPE                ='tir'
+FILE_VERSION             =3.0
+FILE_FORMAT              ='ASCII'
+! : TIRE_VERSION :      MF6.1
+$----------------------------------------------------------------units
+[UNITS]
+LENGTH                   ='meter'
+FORCE                    ='newton'
+ANGLE                    ='radians'
+MASS                     ='kg'
+TIME                     ='second'
+$----------------------------------------------------------------model
+[MODEL]
+FITTYP                   = 61                $Magic Formula Version number             
+TYRESIDE                 ='Left'
+LONGVL                   = 22.2                   $Nominal speed
+VXLOW                    = 1                 $Lower boundary of slip calculation      
+ROAD_INCREMENT           = 0.01              $Increment in road sampling
+ROAD_DIRECTION           = 1                 $Direction of travelled distance 
+!
+! The next lines are only used by ADAMS and ignored by other MBS codes
+!
+! USE_MODE specifies the type of calculation performed:
+!       0: Fz only, no Magic Formula evaluation
+!       1: Fx,My only
+!       2: Fy,Mx,Mz only
+!       3: Fx,Fy,Mx,My,Mz uncombined force/moment calculation
+!       4: Fx,Fy,Mx,My,Mz combined force/moment calculation
+!       5: Fx,Fy,Mx,My,Mz combined force/moment calculation + turnslip
+!      +0: steady state behaviour
+!     +10: including relaxation behaviour
+!     +20: including relaxation behaviour (nonlinear)
+!     +30: including rigid ring dynamics
+!    +100: smooth road contact
+!    +200: smooth road contact (circular cross section, motorcycles)
+!    +400: road contact for 2D roads (using travelled distance)
+!    +500: road contact for 3D roads
+!
+!  example: USE_MODE = 434 implies:
+!    -combined slip 
+!    -rigid ring dynamics
+!    -road contact for 2D roads
+!
+PROPERTY_FILE_FORMAT     ='USER'
+USER_SUB_ID              = 815
+N_TIRE_STATES            = 4
+USE_MODE                 = 114               $Tyre use mode switch (ADAMS only)
+HMAX_LOCAL               = 2.5E-4            $Local integration time step (ADAMS only)
+TIME_SWITCH_INTEG        = 0.1               $Time when local integrator is activated (ADAMS only)
+$-----------------------------------------------------------dimensions
+[DIMENSION]
+UNLOADED_RADIUS          = 0.3284                  $Free tyre radius 				UPDATED
+WIDTH                    = 0.225             $Nominal section width of the tyre    	UPDATED     
+RIM_RADIUS               = 0.2159            $Nominal rim radius					UPDATED
+RIM_WIDTH                = 0.1905             $Rim width         					UPDATED
+ASPECT_RATIO             = 0.50               $Nominal aspect ratio					UPDATED
+$-------------------------------------------------operating conditions
+[OPERATING_CONDITIONS]
+INFLPRES                 = 255000            $Tyre inflation pressure
+NOMPRES                  = 255000.0               $Nominal tyre inflation pressure
+$--------------------------------------------------------------inertia
+[INERTIA]
+MASS                     = 10               $Tyre Mass
+IXX                      = 0.4             $Tyre diametral moment of inertia 
+IYY                      = 0.7             $Tyre polar moment of inertia
+BELT_MASS                = 7             $Belt mass
+BELT_IXX                 = 0.3            $Belt diametral moment of inertia
+BELT_IYY                 = 0.5            $Belt polar moment of inertia
+GRAVITY                  = -9.81             $Gravity acting on belt in Z direction
+$--------------------------------------------------------------vertical
+[VERTICAL]
+FNOMIN                   = 6500.0                 $Nominal wheel load
+VERTICAL_STIFFNESS       = 293666.006339          $Tyre vertical stiffness
+VERTICAL_DAMPING         = 50                $Tyre vertical damping         
+MC_CONTOUR_A             = 0.5               $Motorcycle contour ellips A  
+MC_CONTOUR_B             = 0.5               $Motorcycle contour ellips B  
+BREFF                    = 3.69663550233          $Low load stiffness effective rolling radius
+DREFF                    = 0.275562780192         $Peak value of effective rolling radius
+FREFF                    = 0.0458367734317        $High load stiffness effective rolling radius
+Q_RE0                    = 1.0                    $Ratio of free tyre radius with nominal tyre radius
+Q_V1                     = 0.00137934185488       $Tyre radius increase with speed
+Q_V2                     = 0.0419398750645        $Vertical stiffness increase with speed
+Q_FZ2                    = 20.4412538141          $Quadratic term in load vs. deflection
+Q_FCX                    = 0                      $Longitudinal force influence on vertical stiffness
+Q_FCY                    = 0                      $Lateral force influence on vertical stiffness
+Q_CAM                    = 0                 $Stiffness reduction due to camber         
+PFZ1                     = 0                      $Pressure effect on vertical stiffness
+BOTTOM_OFFST             = 0.01              $Distance to rim when bottoming starts to occur
+BOTTOM_STIFF             = 2000000           $Vertical stiffness of bottomed tyre
+$-------------------------------------------------------------structural
+[STRUCTURAL]
+LONGITUDINAL_STIFFNESS   = 447814            $Tyre overall longitudinal stiffness
+LATERAL_STIFFNESS        = 185905            $Tyre overall lateral stiffness
+YAW_STIFFNESS            = 5000              $Tyre overall yaw stiffness
+FREQ_LONG                = 75                $Undamped frequency fore/aft and vertical mode
+FREQ_LAT                 = 45                $Undamped frequency lateral mode
+FREQ_YAW                 = 50                $Undamped frequency yaw and camber mode
+FREQ_WINDUP              = 75                $Undamped frequency wind-up mode
+DAMP_LONG                = 0.05              $Dimensionless damping fore/aft and vertical mode
+DAMP_LAT                 = 0.05              $Dimensionless damping lateral mode
+DAMP_YAW                 = 0.05              $Dimensionless damping yaw and camber mode
+DAMP_WINDUP              = 0.05              $Dimensionless damping wind-up mode
+DAMP_RESIDUAL            = 0.0025            $Residual damping (proportional to stiffness)
+DAMP_VLOW                = 0.0015            $Additional low speed damping (proportional to stiffness)
+Q_BVX                    = 0                 $Load and speed influence on in-plane translation stiffness
+Q_BVT                    = 0                 $Load and speed influence on in-plane rotation stiffness
+PCFX1                    = 0.139475318       $Tyre overall longitudinal stiffness vertical deflection dependency linear term
+PCFX2                    = 0.175162009       $Tyre overall longitudinal stiffness vertical deflection dependency quadratic term
+PCFX3                    = 0                 $Tyre overall longitudinal stiffness pressure dependency
+PCFY1                    = -0.338705253      $Tyre overall lateral stiffness vertical deflection dependency linear term
+PCFY2                    = -0.293633845      $Tyre overall lateral stiffness vertical deflection dependency quadratic term
+PCFY3                    = 0                 $Tyre overall lateral stiffness pressure dependency
+PCMZ1                    = 0                 $Tyre overall yaw stiffness pressure dependency
+$---------------------------------------------inflation_pressure_range
+[INFLATION_PRESSURE_RANGE]
+PRESMIN                  = 250000            $Minimum valid tyre inflation pressure         
+PRESMAX                  = 260000           $Minimum valid tyre inflation pressure         
+$-------------------------------------------------vertical_force_range
+[VERTICAL_FORCE_RANGE]
+FZMIN                    = 100               $Minimum allowed wheel load         
+FZMAX                    = 12000              $Maximum allowed wheel load         
+$------------------------------------------------------long_slip_range
+[LONG_SLIP_RANGE]
+KPUMIN                   = -1.0              $Minimum valid wheel slip         
+KPUMAX                   = 1.0               $Maximum valid wheel slip         
+$-----------------------------------------------------slip_angle_range
+[SLIP_ANGLE_RANGE]
+ALPMIN                   = -0.523599              $Minimum valid slip angle         
+ALPMAX                   = 0.523599               $Maximum valid slip angle         
+$-----------------------------------------------inclination_slip_range
+[INCLINATION_ANGLE_RANGE]
+CAMMIN                   = -0.17453          $Minimum valid camber angle         
+CAMMAX                   = 0.17453           $Maximum valid camber angle         
+$--------------------------------------------------------------scaling
+[SCALING_COEFFICIENTS]
+LFZO                     = 1.0                    $Scale factor of nominal (rated) load
+LCX                      = 1.0                    $Scale factor of Fx shape factor
+LMUX                     = 1.0                 $Scale factor of Fx peak friction coefficient (NEW 0.8)
+LEX                      = 1.0                    $Scale factor of Fx curvature factor
+LKX                      = 1.3                    $Scale factor of Fx slip stiffness
+LHX                      = 1.0                    $Scale factor of Fx horizontal shift
+LVX                      = 1.0                    $Scale factor of Fx vertical shift
+LCY                      = 1.0                    $Scale factor of Fy shape factor
+LMUY                     = 1.1                   $Scale factor of Fy peak friction coefficient 
+LEY                      = 1.0                    $Scale factor of Fy curvature factor
+LKY                      = 0.94                   $Scale factor of Fy cornering stiffness (NEW 1.6)
+LKYC                     = 1.0                    $Scale factor of Fy camber stiffness
+LKZC                     = 1.0                    $Scale factor of Mz camber stiffness
+LHY                      = 1.0                    $Scale factor of Fy horizontal shift
+LVY                      = 1.0                    $Scale factor of Fy vertical shift
+LTR                      = 1.0                    $Scale factor of Peak of pneumatic trail
+LRES                     = 1.0                    $Scale factor for offset of Mz residual torque
+LXAL                     = 1.2                    $Scale factor of alpha influence on Fx
+LYKA                     = 1.2                    $Scale factor of kappa influence on Fy
+LVYKA                    = 1.0                    $Scale factor of kappa induced Fy
+LS                       = 1.0                    $Scale factor of Moment arm of Fx
+LMX                      = 1.0                    $Scale factor of Mx overturning moment
+LVMX                     = 1.0                    $Scale factor of Mx vertical shift
+LMY                      = 1.0                    $Scale factor of rolling resistance torque
+LMP                      = 1.0                    $Scale factor of Mz parking torque
+$---------------------------------------------------------longitudinal
+[LONGITUDINAL_COEFFICIENTS]
+PCX1                     = 1.47017647976          $Shape factor Cfx for longitudinal force
+PDX1                     = 1.29205581001          $Longitudinal friction Mux at Fznom
+PDX2                     = -0.094716562988        $Variation of friction Mux with load
+PDX3                     = -0.0759830568159       $Variation of friction Mux with camber
+PEX1                     = -0.014246500638        $Longitudinal curvature Efx at Fznom
+PEX2                     = -0.0201401103186       $Variation of curvature Efx with load
+PEX3                     = 0.0127182856938        $Variation of curvature Efx with load squared
+PEX4                     = -16.9178502323         $Factor in curvature Efx while driving
+PKX1                     = 35.7492598754          $Longitudinal slip stiffness Kfx/Fz at Fznom
+PKX2                     = 23.3570064542          $Variation of slip stiffness Kfx/Fz with load
+PKX3                     = -0.193922855049        $Exponent in slip stiffness Kfx/Fz with load
+PHX1                     = -0.000686503575961     $Horizontal shift Shx at Fznom
+PHX2                     = 4.83421671846e-06      $Variation of shift Shx with load
+PVX1                     = 0.0496272503263        $Vertical shift Svx/Fz at Fznom
+PVX2                     = 0.016910500195         $Variation of shift Svx/Fz with load
+PPX1                     = 0.0                    $linear influence of inflation pressure on longitudinal slip stiffness
+PPX2                     = 0.0                    $quadratic influence of inflation pressure on longitudinal slip stiffness
+PPX3                     = 0.0                    $linear influence of inflation pressure on peak longitudinal friction
+PPX4                     = 0.0                    $quadratic influence of inflation pressure on peak longitudinal friction
+RBX1                     = 15.8313699549          $Slope factor for combined slip Fx reduction
+RBX2                     = 15.8757495947          $Variation of slope Fx reduction with kappa
+RBX3                     = 175.309363474          $Influence of camber on stiffness for Fx combined
+RCX1                     = 1.10402600027          $Shape factor for combined slip Fx reduction
+REX1                     = -0.16347615358         $Curvature factor of combined Fx
+REX2                     = -0.427102867707        $Curvature factor of combined Fx with load
+RHX1                     = 0.00382812695189       $Shift factor for combined slip Fx reduction
+$----------------------------------------------------------overturning
+[OVERTURNING_COEFFICIENTS]
+QSX1                     = -0.0048793746614       $Vertical shift of overturning moment
+QSX2                     = 1.56806335845          $Camber induced overturning couple
+QSX3                     = 0.141862259363         $Fy induced overturning couple
+QSX4                     = 0.511553243935         $Mixed load lateral force and camber on Mx
+QSX5                     = 10.6772765113          $Load effect on Mx with lateral force and camber
+QSX6                     = -12.1509617922         $B-factor of load with Mx
+QSX7                     = 3.25799720037          $Camber with load on Mx
+QSX8                     = -3.05095432013         $Lateral force with load on Mx
+QSX9                     = -0.190331838269        $B-factor of lateral force with load on Mx
+QSX10                    = 1.09692682115          $Vertical force with camber on Mx
+QSX11                    = 3.35002877796          $B-factor of vertical force with camber on Mx
+QSX12                    = 0                 $Camber squared induced overturning moment         
+QSX13                    = 0                 $Lateral force induced overturning moment         
+QSX14                    = 0                 $Lateral force induced overturning moment with camber  
+PPMX1                    = 0.0                    $Influence of inflation pressure on overturning moment
+$--------------------------------------------------------------lateral
+[LATERAL_COEFFICIENTS]
+PCY1                     = 1.4535456073           $Shape factor Cfy for lateral forces
+PDY1                     = 1.08641578389          $Lateral friction Muy
+PDY2                     = -0.202063276985        $Variation of friction Muy with load
+PDY3                     = 2.54647064203          $Variation of friction Muy with squared camber
+PEY1                     = -0.809308026736        $Lateral curvature Efy at Fznom
+PEY2                     = -0.344235628797        $Variation of curvature Efy with load
+PEY3                     = 0.241842709354         $Zero order camber dependency of curvature Efy
+PEY4                     = -7.70604444978         $Variation of curvature Efy with camber
+PEY5                     = -7.02286868832         $Variation of curvature Efy with camber squared
+PKY1                     = -26.941811432          $Maximum value of stiffness Kfy/Fznom
+PKY2                     = 3.20134100132          $Load at which Kfy reaches maximum value
+PKY3                     = 0.474783213321         $Variation of Kfy/Fznom with camber
+PKY4                     = 2.51722084415          $Curvature of stiffness Kfy
+PKY5                     = -18.3476496335         $Peak stiffness variation with camber squared
+PKY6                     = -1.22550958932         $Fy camber stiffness factor
+PKY7                     = 0.306363951097         $Vertical load dependency of camber stiffness
+PHY1                     = 0.00338091571126       $Horizontal shift Shy at Fznom
+PHY2                     = 0.00106857468227       $Variation of shift Shy with load
+PVY1                     = 0.00639925417219       $Vertical shift in Svy/Fz at Fznom
+PVY2                     = 0.0169549897612        $Variation of shift Svy/Fz with load
+PVY3                     = -0.54637451826         $Variation of shift Svy/Fz with camber
+PVY4                     = -0.00824796959493      $Variation of shift Svy/Fz with camber and load
+PPY1                     = 0.00344494295965       $influence of inflation pressure on cornering stiffness
+PPY2                     = 0.00419027473631       $influence of inflation pressure on dependency of nominal tyre load on cornering stiffness
+PPY3                     = -0.00971463322943      $linear influence of inflation pressure on lateral peak friction
+PPY4                     = -0.00189034804727      $quadratic influence of inflation pressure on lateral peak friction
+PPY5                     = -0.00256530079968      $Influence of inflation pressure on camber stiffness
+RBY1                     = 12.7387135033          $Slope factor for combined Fy reduction
+RBY2                     = -10.9796422721         $Variation of slope Fy reduction with alpha
+RBY3                     = 0.000943259664435      $Shift term for alpha in slope Fy reduction
+RBY4                     = 13.0416607764          $Influence of camber on stiffness of Fy combined
+RCY1                     = 1.12491440659          $Shape factor for combined Fy reduction
+REY1                     = 0.3379172926           $Curvature factor of combined Fy
+REY2                     = 0.055611585661         $Curvature factor of combined Fy with load
+RHY1                     = 0.00469524242152       $Shift factor for combined Fy reduction
+RHY2                     = 0.0113858135155        $Shift factor for combined Fy reduction with load
+RVY1                     = -0.00765807589273      $Kappa induced side force Svyk/Muy*Fz at Fznom
+RVY2                     = -0.0851710161945       $Variation of Svyk/Muy*Fz with load
+RVY3                     = -2.70975264601         $Variation of Svyk/Muy*Fz with camber
+RVY4                     = -80.1124520485         $Variation of Svyk/Muy*Fz with alpha
+RVY5                     = 1.99919127876          $Variation of Svyk/Muy*Fz with kappa
+RVY6                     = -26.8749345559         $Variation of Svyk/Muy*Fz with atan(kappa)
+$---------------------------------------------------rolling resistance
+[ROLLING_COEFFICIENTS]
+QSY1                     = 0.01                   $Rolling resistance torque coefficient
+QSY2                     = 0.0                    $Rolling resistance torque depending on Fx
+QSY3                     = 0.0004                 $Rolling resistance torque depending on speed
+QSY4                     = 4e-05                  $Rolling resistance torque depending on speed ^4
+QSY5                     = 0.0                    $Rolling resistance torque depending on camber squared
+QSY6                     = 0.0                    $Rolling resistance torque depending on load and camber squared
+QSY7                     = 0.85                   $Rolling resistance torque coefficient load dependency
+QSY8                     = -0.4                   $Rolling resistance torque coefficient pressure dependency
+$-------------------------------------------------------------aligning
+[ALIGNING_COEFFICIENTS]
+QBZ1                     = 8.47696274219          $Trail slope factor for trail Bpt at Fznom
+QBZ2                     = 3.62052197546          $Variation of slope Bpt with load
+QBZ3                     = 1.22930101392          $Variation of slope Bpt with load squared
+QBZ4                     = 0.24915193002          $Variation of slope Bpt with camber
+QBZ5                     = 0.565364725546         $Variation of slope Bpt with absolute camber
+QBZ9                     = 1.45780465182          $Factor for scaling factors of slope factor Br of Mzr
+QBZ10                    = -0.525282547879        $Factor for dimensionless cornering stiffness of Br of Mzr
+QCZ1                     = 1.06110383572          $Shape factor Cpt for pneumatic trail
+QDZ1                     = 0.100437822798         $Peak trail Dpt
+QDZ2                     = 0.0303438803782        $Variation of peak Dpt with load
+QDZ3                     = 0.169662370113         $Variation of peak Dpt with camber
+QDZ4                     = 25.6323107757          $Variation of peak Dpt with camber squared
+QDZ6                     = 0.00452419285804       $Peak residual torque Dmr
+QDZ7                     = -0.0112694164509       $Variation of peak factor Dmr with load
+QDZ8                     = -0.198428422928        $Variation of peak factor Dmr with camber
+QDZ9                     = 0.137337207734         $Variation of peak factor Dmr with camber and load
+QDZ10                    = -0.176133522894        $Variation of peak factor Dmr with camber squared
+QDZ11                    = -1.61930375665         $Variation of Dmr with camber squared and load
+QEZ1                     = -14.0448024634         $Trail curvature Ept at Fznom
+QEZ2                     = 18.4139756012          $Variation of curvature Ept with load
+QEZ3                     = -8.08308071383         $Variation of curvature Ept with load squared
+QEZ4                     = 0.167569115765         $Variation of curvature Ept with sign of Alpha-t
+QEZ5                     = -4.16623109457         $Variation of Ept with camber and sign Alpha-t
+QHZ1                     = 0.00442710422143       $Trail horizontal shift Sht at Fznom
+QHZ2                     = -0.00334316118769      $Variation of shift Sht with load
+QHZ3                     = 0.0845202220412        $Variation of shift Sht with camber
+QHZ4                     = -0.00317904949881      $Variation of shift Sht with camber and load
+PPZ1                     = 0.0                    $effect of inflation pressure on length of pneumatic trail
+PPZ2                     = 0.0                    $Influence of inflation pressure on residual aligning torque
+SSZ1                     = -0.0361317664035       $Nominal value of s/R0: effect of Fx on Mz
+SSZ2                     = 0.042813434212         $Variation of distance s/R0 with Fy/Fznom
+SSZ3                     = 0.974202273697         $Variation of distance s/R0 with camber
+SSZ4                     = -1.4093867563          $Variation of distance s/R0 with load and camber
