@@ -38,7 +38,8 @@ plot(alpha,Fy,LineWidth=1.5);
 [PiccoFy,IndicePicco] = max(Fy);
 alpha_picco(ii) = alpha(IndicePicco);
 
-leg(ii) = strcat('$F_y (F_z = ',num2str(Fz_vec(ii)),' [N])',' , ','\alpha_{Fymax} = ',num2str(alpha_picco(ii)),' [rad]$');
+%leg(ii) = strcat('$F_y (F_z = ',num2str(Fz_vec(ii)),' [N])',' , ','\alpha_{Fymax} = ',num2str(alpha_picco(ii)),' [rad]$');
+leg(ii) = strcat('$F_y (F_z = ',num2str(Fz_vec(ii)),' [N])$');
 
 Cs(ii) = mean(-outMF(:,26));
 mu(ii) = mean(outMF(:,18));
@@ -48,6 +49,7 @@ end
 
 figure(1);
 hold on
+grid on
 set(gca,'TickLabelInterpreter','latex');
 xline(0,'--');
 yline(0,'--');
@@ -62,32 +64,35 @@ ylim([-lim lim]);
 legend(leg,Interpreter='latex',fontsize=12);
 
 
-figure(2)
-hold on
-set(gca,'TickLabelInterpreter','latex');
-plot(Fz_vec,alpha_picco);
-xlabel('$F_z [N]$',Interpreter='latex',fontsize=14);
-ylabel('$\alpha_{Fy_{max}} [rad]$',Interpreter='latex',fontsize=16);
+% figure(2)
+% hold on
+% set(gca,'TickLabelInterpreter','latex');
+% plot(Fz_vec,alpha_picco);
+% xlabel('$F_z [N]$',Interpreter='latex',fontsize=14);
+% ylabel('$\alpha_{Fy_{max}} [rad]$',Interpreter='latex',fontsize=16);
 
-% figure(3)
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% xlabel('$F_z [N]$',Interpreter='latex',fontsize=16);
-% ylabel('$BCD [N/rad]$',Interpreter='latex',fontsize=14);
-% plot(Fz_vec,Cs,color='blue',LineWidth=1.5);
-% 
-% 
-% figure(4)
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% xlabel('$F_z [N]$',Interpreter='latex',fontsize=16);
-% ylabel('$\frac{BCD}{Fz}$',Interpreter='latex',fontsize=14);
-% plot(Fz_vec,Cs_Fz,color='red',LineWidth=1.5);
-% 
-% 
-% figure(5)
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% xlabel('$F_z [N]$',Interpreter='latex',fontsize=16);
-% ylabel('$\mu$',Interpreter='latex',fontsize=14);
-% plot(Fz_vec,mu,color='green',LineWidth=1.5);
+figure(3)
+hold on
+grid on
+set(gca,'TickLabelInterpreter','latex');
+xlabel('$F_z [N]$',Interpreter='latex',fontsize=16);
+ylabel('$BCD [N/rad]$',Interpreter='latex',fontsize=14);
+plot(Fz_vec,Cs,color='blue',LineWidth=1.5);
+
+
+figure(4)
+hold on
+grid on
+set(gca,'TickLabelInterpreter','latex');
+xlabel('$F_z [N]$',Interpreter='latex',fontsize=16);
+ylabel('$\frac{BCD}{Fz}$',Interpreter='latex',fontsize=14);
+plot(Fz_vec,Cs_Fz,color='red',LineWidth=1.5);
+
+
+figure(5)
+hold on
+grid on
+set(gca,'TickLabelInterpreter','latex');
+xlabel('$F_z [N]$',Interpreter='latex',fontsize=16);
+ylabel('$\mu$',Interpreter='latex',fontsize=14);
+plot(Fz_vec,mu,color='green',LineWidth=1.5);
