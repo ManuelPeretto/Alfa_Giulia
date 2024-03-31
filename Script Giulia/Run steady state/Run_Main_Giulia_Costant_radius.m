@@ -47,11 +47,11 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %[Tyre] = select_file_tir(path_giulia);
 
-%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
-%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
+%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
+%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
 
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
+Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
+Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
 
 %% Set simulation Time
 dt=0.1;    % time step [s]
