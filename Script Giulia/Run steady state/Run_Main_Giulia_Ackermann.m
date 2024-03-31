@@ -1,7 +1,7 @@
 clear
 close all
 clc
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 currentFile = mfilename('fullpath');
 [pathstr, ~, ~] = fileparts(currentFile);
 path_giulia = fileparts(pathstr);
