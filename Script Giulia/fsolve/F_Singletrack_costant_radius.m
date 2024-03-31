@@ -1,5 +1,5 @@
 
-function [Alfa,Force,Solution] = F_Singletrack_costant_radius(V,R_vec,Vehicle,Tyre,N,choice_model)
+function [Solution] = F_Singletrack_costant_radius(V,R_vec,Vehicle,Tyre,N,choice_model)
 
 alfaf_vec=zeros(1,N);
 alfar_vec=zeros(1,N);
@@ -68,12 +68,13 @@ Solution.u = V;
 Solution.v = v_vec;
 Solution.r = r_vec;
 Solution.r_u = r_vec./V;
+Solution.ay = V * r_vec;
 Solution.deltaf_vec=deltaf_vec;
 
-Alfa.alfaf=alfaf_vec;
-Alfa.alfar=alfar_vec;
+Solution.alfa_f=alfaf_vec;
+Solution.alfa_r=alfar_vec;
 
-Force.Fyf = Fyf_vec;
-Force.Fyr = Fyr_vec;
+Solution.Fy_f = Fyf_vec;
+Solution.Fy_r = Fyr_vec;
 
 end

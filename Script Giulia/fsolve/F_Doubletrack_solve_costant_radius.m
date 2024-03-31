@@ -36,18 +36,20 @@ switch choice_model
         Fyrr = -outMF_rr(:,2);   % Lateral Force Rear Right;
 end
 
-% 
-% F =[x(3) + (x(1) + omega*a) / (U) - x(2);              % 0 = alfa_fl + (v + omega*a)/(u + omega*Wf) - deltafrontleft - toe ;
-%     x(4) + (x(1) + omega*a) / (U) - x(2);              % 0 = alfa_fr + (v + omega*a)/(u - omega*Wf) - deltafrontright + toe ;
-%     x(5) + (x(1) - omega*b) / (U);                     % 0 = alfa_rl + (v - omega*b)/(u + omega*Wr)
-%     x(6) + (x(1) - omega*b) / (U);                     % 0 = alfa_rr + (v - omega*b)/(u - omega*Wr)
-%     ((Fyfl + Fyfr + Fyrl + Fyrr) / m) - omega*U;       % 0 = (Fyfl + Fyfr + Fyrl + Fyrr) / m - omega*u ;
-%     (Fyfl+Fyfr)*a - (Fyrl+Fyrr)*b];                    % 0 = ( (Fyfl + Fyfr)*a - (Fyrl + Fyrr)*b ) / J ;   
-
-F =[x(3) + ( x(1) + omega * Vehicle.a) / (U) - x(2);       
-    x(4) + ( x(1) + omega * Vehicle.a) / (U) - x(2);       
-    x(5) + ( x(1) - omega * Vehicle.b) / (U);                
-    x(6) + ( x(1) - omega * Vehicle.b) / (U);                
-    (Fyfl*cos(x(2)) + Fyfr*cos(x(2)) + Fyrl + Fyrr) / Vehicle.m - omega * U;     
-    (Fyfl*cos(x(2)) + Fyfr*cos(x(2))) * Vehicle.a - (Fyrl + Fyrr) * Vehicle.b]; 
+switch Vehicle.choice_approx
+    case 1
+        F =[x(3) + (x(1) + omega*a) / (U) - x(2);
+            x(4) + (x(1) + omega*a) / (U) - x(2);
+            x(5) + (x(1) - omega*b) / (U);
+            x(6) + (x(1) - omega*b) / (U);
+            ((Fyfl + Fyfr + Fyrl + Fyrr) / m) - omega*U;
+            (Fyfl+Fyfr)*a - (Fyrl+Fyrr)*b];
+    case 2
+        F =[x(3) + ( x(1) + omega * Vehicle.a) / (U) - x(2);
+            x(4) + ( x(1) + omega * Vehicle.a) / (U) - x(2);
+            x(5) + ( x(1) - omega * Vehicle.b) / (U);
+            x(6) + ( x(1) - omega * Vehicle.b) / (U);
+            (Fyfl*cos(x(2)) + Fyfr*cos(x(2)) + Fyrl + Fyrr) / Vehicle.m - omega * U;
+            (Fyfl*cos(x(2)) + Fyfr*cos(x(2))) * Vehicle.a - (Fyrl + Fyrr) * Vehicle.b];
+end
 end

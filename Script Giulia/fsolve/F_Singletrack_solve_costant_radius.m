@@ -25,10 +25,16 @@ end
 
 omega = U / R;
 
-F = [x(2)+(x(3)-omega*b)/U;                   % 0 = alfa_r + (v - omega*b)/u ;
-    x(1)+(x(3)+omega*a)/U-x(4);               % 0 = alfa_f + (v + omega*a)/u - deltafront ;
-    (Fyr + Fyf*cos(x(4)))/m-omega*U;         % 0 = (Fyr + Fyf*cos(delta) / m - omega*u ;
-    (-Fyr*b + Fyf*a*cos(x(4)))];             % 0 = (Fyr*b - Fyf*a*cos(delta)) / J ;
-    %(Fyr + Fyf)/m-omega*U;
-    %(-Fyr*b + Fyf*a)];    
+switch Vehicle.choice_approx
+    case 1
+        F = [x(2)+(x(3)-omega*b)/U;                   % 0 = alfa_r + (v - omega*b)/u ;
+            x(1)+(x(3)+omega*a)/U-x(4);               % 0 = alfa_f + (v + omega*a)/u - deltafront 
+            (Fyr + Fyf)/m-omega*U;
+            (-Fyr*b + Fyf*a)];
+    case 2
+        F = [x(2)+(x(3)-omega*b)/U;                   % 0 = alfa_r + (v - omega*b)/u ;
+            x(1)+(x(3)+omega*a)/U-x(4);               % 0 = alfa_f + (v + omega*a)/u - deltafront ;
+            (Fyr + Fyf*cos(x(4)))/m-omega*U;         % 0 = (Fyr + Fyf*cos(delta) / m - omega*u ;
+            (-Fyr*b + Fyf*a*cos(x(4)))];             % 0 = (Fyr*b - Fyf*a*cos(delta)) / J ;
+end       
 end

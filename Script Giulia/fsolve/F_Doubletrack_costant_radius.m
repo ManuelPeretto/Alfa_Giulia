@@ -1,5 +1,5 @@
 
-function [Alfa,Force,Solution] = F_Doubletrack_costant_radius(V,R_vec,Vehicle,Tyre,N,choice_model)
+function [Solution] = F_Doubletrack_costant_radius(V,R_vec,Vehicle,Tyre,N,choice_model)
 
 alfafl_vec=zeros(1,N);
 alfafr_vec=zeros(1,N);
@@ -97,21 +97,22 @@ Solution.u = V;
 Solution.v = v_vec;
 Solution.r = r_vec;
 Solution.r_u = r_vec./V;
+Solution.ay = V * r_vec;
 Solution.deltaf_vec=deltaf_vec;
 
-Alfa.alfafl = alfafl_vec;
-Alfa.alfafr = alfafr_vec;
-Alfa.alfarl = alfarl_vec;
-Alfa.alfarr = alfarr_vec;
+Solution.alfa_fl = alfafl_vec;
+Solution.alfa_fr = alfafr_vec;
+Solution.alfa_rl = alfarl_vec;
+Solution.alfa_rr = alfarr_vec;
 
-Force.Fyfl = Fyfl_vec;
-Force.Fyfr = Fyfr_vec;
-Force.Fyrl = Fyrl_vec;
-Force.Fyrr = Fyrr_vec;
+Solution.Fy_fl = Fyfl_vec;
+Solution.Fy_fr = Fyfr_vec;
+Solution.Fy_rl = Fyrl_vec;
+Solution.Fy_rr = Fyrr_vec;
 
-Force.Fzfl = Fzfl_vec;
-Force.Fzfr = Fzfr_vec;
-Force.Fzrl = Fzrl_vec;
-Force.Fzrr = Fzrr_vec;
+Solution.Fz_fl = Fzfl_vec;
+Solution.Fz_fr = Fzfr_vec;
+Solution.Fz_rl = Fzrl_vec;
+Solution.Fz_rr = Fzrr_vec;
 
 end

@@ -1,5 +1,5 @@
 
-function [Alfa,Force,Solution] = F_Singletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model)
+function [Solution] = F_Singletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model)
 
 alfaf_vec=zeros(1,N);
 alfar_vec=zeros(1,N);
@@ -69,10 +69,10 @@ Solution.v = v_vec;
 Solution.r = r_vec;
 Solution.r_u = r_vec./V;
 
-Alfa.alfaf=alfaf_vec;
-Alfa.alfar=alfar_vec;
+Solution.alfaf=alfaf_vec;
+Solution.alfar=alfar_vec;
 
-Force.Fyf = Fyf_vec;
-Force.Fyr = Fyr_vec;
+Solution.Fyf = Fyf_vec;
+Solution.Fyr = Fyr_vec;
 
 end

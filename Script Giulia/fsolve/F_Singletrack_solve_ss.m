@@ -25,12 +25,16 @@ switch choice_model
         Fyr = -2*outMF_r(:,2);
 end    
 
-
-F = [x(2)+(x(3)-x(4)*b)/U;                   % 0 = alfa_r + (v - omega*b)/u ;
-     x(1)+(x(3)+x(4)*a)/U-delta;              % 0 = alfa_f + (v + omega*a)/u - deltafront ;
-    %(Fyr + Fyf*cos(delta))/m-x(4)*U;        % 0 = (Fyr + Fyf*cos(delta) / m - omega*u ;
-    %(-Fyr*b + Fyf*a*cos(delta))];           % 0 = (Fyr*b - Fyf*a*cos(delta)) / J ;
-    (Fyr + Fyf)/m-x(4)*U;                    % 0 = (Fyr + Fyf) / m - omega*u ;
-    (-Fyr*b + Fyf*a)];                       % 0 = (Fyr*b - Fyf*a) / J ;
-
+switch Vehicle.choice_approx
+    case 1
+        F = [x(2)+(x(3)-x(4)*b)/U;                    % 0 = alfa_r + (v - omega*b)/u ;
+            x(1)+(x(3)+x(4)*a)/U-delta;               % 0 = alfa_f + (v + omega*a)/u - deltafront ;
+            (Fyr + Fyf)/m-x(4)*U;                     % 0 = (Fyr + Fyf) / m - omega*u ;
+            (-Fyr*b + Fyf*a)];                        % 0 = (Fyr*b - Fyf*a) / J ;
+    case 2
+        F = [x(2)+(x(3)-x(4)*b)/U;                    % 0 = alfa_r + (v - omega*b)/u ;
+            x(1)+(x(3)+x(4)*a)/U-delta;               % 0 = alfa_f + (v + omega*a)/u - deltafront ;
+            (Fyr + Fyf*cos(delta))/m-x(4)*U;          % 0 = (Fyr + Fyf*cos(delta) / m - omega*u ;
+            (-Fyr*b + Fyf*a*cos(delta))];             % 0 = (Fyr*b - Fyf*a*cos(delta)) / J ;
+end
 end
