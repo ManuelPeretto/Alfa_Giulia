@@ -7,14 +7,6 @@ currentFile = mfilename('fullpath');
 path_giulia = fileparts(pathstr);
 addpath(genpath(path_giulia));
 
-% set(0,'defaulttextinterpreter','latex'); 
-% set(0,'DefaultLineLineWidth',1.5); 
-% set(0,'DefaultAxesFontSize',10);
-% set(0,'DefaultLegendFontSize',15); 
-% set(0,'defaultAxesTickLabelInterpreter','latex'); 
-% set(0,'defaultfigurecolor',[1 1 1]); 
-% set(0, 'DefaultAxesBox', 'on');
-
 %% Parameters Input
 Vehicle.m = 1449;                                   % total mass in Kg
 Vehicle.J = 2129;                                   % rotational inertia of yaw motion
@@ -41,7 +33,8 @@ Vehicle.k_roll_r = Vehicle.Wr^2 / 2 * (Vehicle.ks_r + 2 * Vehicle.k_antiroll_r);
 
 Vehicle.Kf_K = Vehicle.k_roll_f / (Vehicle.k_roll_f + Vehicle.k_roll_r);   % (Kf / Ktotale) Roll stiffness distribution to front axle
 
-Vehicle.toe = 0;               % [deg]
+Vehicle.toe_f = 0;     % [deg]
+Vehicle.toe_r = 0;     % [deg]
 Vehicle.percentuale_Ack = 0;   % Ackermann 0 e 1
 
 
@@ -56,14 +49,11 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %[Tyre] = select_file_tir(path_giulia);
 
-%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
-%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
+Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
+Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
 
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
-
-%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Dati Alfa Romeo Giulia\tir files\Pirelli_PZero 245-40ZR20_2.55bar_GiuliaV3_Front.tir");
-%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Dati Alfa Romeo Giulia\tir files\Pirelli_PZero 285-35ZR20_2.55bar_GiuliaV3_Rear.tir");
+%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
+%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
 
 %% Set simulation Time
 dt=0.1;    % time step [s]
@@ -80,12 +70,18 @@ V_vec=[30:30:120];
 %V_vec=[60];
 
 %%
+Vehicle.camber_fl = zeros(N,1);
+Vehicle.camber_fr = zeros(N,1);
+Vehicle.camber_rl = zeros(N,1);
+Vehicle.camber_rr = zeros(N,1);
+
+%%
 choice_model = menu("Choose a Vehicle model","Single track linear","Single track NON linear","Double track linear","Double track NON linear");
 
-
+Vehicle.choice_approx = menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
 %% Calc undeersteer gradient
 
-[Tyre] = F_Calcola_CS(V_vec(1),Vehicle,Tyre,choice_model);
+ [Tyre] = F_Calcola_CS(V_vec(1),Vehicle,Tyre,choice_model);
 
 Tyre.CSnormalizzata_front = Tyre.CSf / Vehicle.Fzf;
 Tyre.CSnormalizzata_rear = Tyre.CSr / Vehicle.Fzr;
@@ -109,11 +105,12 @@ for ii=1:numel(V_vec)
     %% Vehicle
     switch choice_model
         case {1 2}
-            [Alfa,Force,Solution] = F_Singletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model);
+            [Solution] = F_Singletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model);
 
         case {3 4}    
-            [Alfa,Force,Solution,delta] = F_Doubletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model);
+            [Solution] = F_Doubletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model);
     end      
+
     %%     
     % Plot understeer gradient
     ay = Solution.r .* Solution.u;
@@ -137,11 +134,13 @@ end
 
 %% Graph
 figure(1)
+grid on
 set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 xlim([0 Tyre.mu+0.1]);
-ylim([0 2]);
+%ylim([0 2]);
+ylim([-0.2 1]);
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
@@ -153,13 +152,3 @@ mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];
 leg_V(end+1) = '';
 leg_V(end+1) = mu_txt;
 legend(leg_V,Interpreter='latex',fontsize=12);
-
-
-
-% figure
-% hold on
-% scatter(Alfa.alfafl,Force.Fyfl,'filled');
-% scatter(Alfa.alfafr,Force.Fyfr,'filled');
-% scatter(Alfa.alfarl,Force.Fyrl,'filled');
-% scatter(Alfa.alfarr,Force.Fyrr,'filled');
-% legend('Fyfl','Fyfr','Fyrl','Fyrr');

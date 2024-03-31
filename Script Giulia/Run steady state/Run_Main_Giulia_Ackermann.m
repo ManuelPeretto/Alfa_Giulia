@@ -7,13 +7,6 @@ currentFile = mfilename('fullpath');
 path_giulia = fileparts(pathstr);
 addpath(genpath(path_giulia));
 
-% set(0,'defaulttextinterpreter','latex'); 
-% set(0,'DefaultLineLineWidth',1.5); 
-% set(0,'DefaultAxesFontSize',10);
-% set(0,'DefaultLegendFontSize',15); 
-% set(0,'defaultAxesTickLabelInterpreter','latex'); 
-% set(0,'defaultfigurecolor',[1 1 1]); 
-% set(0, 'DefaultAxesBox', 'on');
 
 %% Parameters Input
 Vehicle.m = 1449;                                   % total mass in Kg
@@ -41,7 +34,8 @@ Vehicle.k_roll_r = Vehicle.Wr^2 / 2 * (Vehicle.ks_r + 2 * Vehicle.k_antiroll_r);
 
 Vehicle.Kf_K = Vehicle.k_roll_f / (Vehicle.k_roll_f + Vehicle.k_roll_r);   % (Kf / Ktotale) Roll stiffness distribution to front axle
 
-Vehicle.toe = 0;     % [deg]
+Vehicle.toe_f = 0;     % [deg]
+Vehicle.toe_r = 0;     % [deg]
 
 %%
 Vehicle.Fzf = Vehicle.m * 9.81 * Vehicle.b / Vehicle.L;       % Radial Force on front axle
@@ -61,6 +55,7 @@ Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\To
 %Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
 
 choice_model = 4;
+Vehicle.choice_approx = 1;
 %% Set simulation Time
 dt=0.1;    % time step [s]
 tMax=30;   % final time [s]
@@ -72,8 +67,7 @@ N=length(tvec);
      
 deltaf_vec=linspace(0,15,N); % vector steering angle fixed
 
-%V_vec=[30:30:120];
-V_vec=[30];
+V_vec=[90];
 
 %% Calc undeersteer gradient
 
@@ -86,10 +80,16 @@ Tyre.CSnormalizzata_rear = Tyre.CSr / Vehicle.Fzr;
 Vehicle.Gradiente = ( Vehicle.b * Tyre.CSr - Vehicle.a * Tyre.CSf ) / ( Tyre.CSr * Tyre.CSf * Vehicle.L ) * Vehicle.m * 9.81;
 Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
+%%
+Vehicle.camber_fl = zeros(N,1);
+Vehicle.camber_fr = zeros(N,1);
+Vehicle.camber_rl = zeros(N,1);
+Vehicle.camber_rr = zeros(N,1);
 
 %% 
 
-percentuale_Ack_vec = [0 : 0.5 : 1];
+% percentuale_Ack_vec = [0 : 0.5 : 1];
+percentuale_Ack_vec = [-8.5,-1,0,1];
 n = numel(percentuale_Ack_vec);
 
 leg_V=string(n*2);
@@ -109,7 +109,7 @@ for ii=1:n
 
     %% Vehicle
 
-    [Alfa,Force,Solution,delta] = F_Doubletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model);
+    [Solution] = F_Doubletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model);
 
     %%     
     % Plot understeer gradient
@@ -117,8 +117,9 @@ for ii=1:n
     [Piccoay(ii),IndicePicco_ay(ii)] = max(ay);
     
     sterzo_din = deg2rad(deltaf_vec) - ((Vehicle.L.*ay)./(Solution.u.^2));
+    delta_star=deltaf_vec(IndicePicco_ay(ii));
 
-    [deltal_star,deltar_star]=Ackermann(deltaf_vec(IndicePicco_ay(ii)),Vehicle.toe,Vehicle.percentuale_Ack,Vehicle.Wf,Vehicle.L);
+    [deltal_star,deltar_star]=Ackermann(deg2rad(delta_star),Vehicle);
     
     Grad(ii,:) = (diff(rad2deg(sterzo_din))./diff(ay./9.81));
 
@@ -127,7 +128,7 @@ for ii=1:n
     plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:));
     
     jj=jj+1;
-    leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$ , $\delta_{in} =',num2str(deltar_star),'$ [deg] , $\delta_{out} =',num2str(deltal_star),'$ [deg]');
+    leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$ , $\delta_{in} =',num2str(rad2deg(deltar_star)),'$ [deg] , $\delta_{out} =',num2str(rad2deg(deltal_star)),'$ [deg], $\delta_{input} =',num2str(delta_star),'$ [deg]');
 
     %scatter(ay(1,2)./9.81,Grad(ii,1),'MarkerEdgeColor',colorlist(ii,:),'MarkerFaceColor',colorlist(ii,:),LineWidth=2);
     %jj=jj+1;
@@ -135,22 +136,23 @@ for ii=1:n
     
     sub_txt = strcat(txt,' , ',' Ack =',num2str(percentuale_Ack_vec(ii)));
 
-    figure
-    hold on
-    set(gca,'TickLabelInterpreter','latex');
-    subtitle(sub_txt,Interpreter='latex',fontsize=12);
-    scatter(Alfa.alfafl,Force.Fyfl,'filled');
-    scatter(Alfa.alfafr,Force.Fyfr,'filled');
-    scatter(Alfa.alfarl,Force.Fyrl,'filled');
-    scatter(Alfa.alfarr,Force.Fyrr,'filled');
-    xlabel('$\alpha [rad]$',Interpreter='latex',fontsize=16);
-    ylabel('$F_y [N]$',Interpreter='latex',fontsize=14);
-    ylim([0 inf]);
-    legend('$F_{Yfl}$','$F_{Yfr}$','$F_{Yrl}$','$F_{Yrr}$',Interpreter='latex',fontsize=16);
+%     figure
+%     hold on
+%     set(gca,'TickLabelInterpreter','latex');
+%     subtitle(sub_txt,Interpreter='latex',fontsize=12);
+%     scatter(Solution.alfa_fl,Solution.Fy_fl,'filled');
+%     scatter(Solution.alfa_fr,Solution.Fy_fr,'filled');
+%     scatter(Solution.alfa_rl,Solution.Fy_rl,'filled');
+%     scatter(Solution.alfa_rr,Solution.Fy_rr,'filled');
+%     xlabel('$\alpha [rad]$',Interpreter='latex',fontsize=16);
+%     ylabel('$F_y [N]$',Interpreter='latex',fontsize=14);
+%     ylim([0 inf]);
+%     legend('$F_{Yfl}$','$F_{Yfr}$','$F_{Yrl}$','$F_{Yrr}$',Interpreter='latex',fontsize=16);
 end    
 
 %% Graph
 figure(1)
+grid on
 set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);

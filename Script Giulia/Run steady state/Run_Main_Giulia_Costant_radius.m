@@ -15,11 +15,11 @@ Vehicle.b = Vehicle.wd*Vehicle.L;                   % distance from gravity cent
 Vehicle.a = Vehicle.L-Vehicle.b;                    % distance from gravity center to front axle
 Vehicle.tau = 11.8;
 
-Vehicle.Wf = 1.557;             % Wheel track front 
-Vehicle.Wr = 1.625;             % Wheel track rear
-Vehicle.h = 0.592;              % Gravity center height
-Vehicle.dr = 0.086;             % height of rear roll center
-Vehicle.df = 0.041;             % height of front roll center
+Vehicle.Wf = 1.557;                                 % Wheel track front 
+Vehicle.Wr = 1.625;                                 % Wheel track rear
+Vehicle.h = 0.592;                                  % Gravity center height
+Vehicle.dr = 0.086;                                 % height of rear roll center
+Vehicle.df = 0.041;                                 % height of front roll center
 Vehicle.dd = Vehicle.df+(Vehicle.dr-Vehicle.df)*Vehicle.a/Vehicle.L;
 
 Vehicle.ks_f = 20.8e3;                             % N/m % front suspension stiffness
@@ -83,7 +83,9 @@ Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
 %%
 choice_model = menu("Choose a Vehicle model","Single track linear","Single track NON linear","Double track linear","Double track NON linear");
+Vehicle.choice_approx = menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
 
+%%
 leg = string(numel(R)*2 +2);
 Grad = zeros(numel(R),N-1);
 colorlist = colormap(lines(numel(R)));
@@ -91,12 +93,12 @@ jj=0;
 
 for ii=1:numel(R)
 
-    R_vec = zeros(1,N) + R(ii);  % vector steer angle fixed
+    R_vec = zeros(1,N) + R(ii);
     switch choice_model
         case {1 2}
-            [Alfa,Force,Solution] = F_Singletrack_costant_radius(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
+            [Solution] = F_Singletrack_costant_radius(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
         case {3 4}
-            [Alfa,Force,Solution] = F_Doubletrack_costant_radius(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
+            [Solution] = F_Doubletrack_costant_radius(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
     end
 
      %%     
@@ -124,6 +126,7 @@ end
 
 %% Graph
 figure(1)
+grid on
 set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
