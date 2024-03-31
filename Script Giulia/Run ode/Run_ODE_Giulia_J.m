@@ -9,7 +9,7 @@ addpath(genpath(path_giulia));
 
 %% Parameters Input
 Vehicle.m = 1750;                                   % total mass in Kg
-Vehicle.J = 2129;                                   % rotational inertia of yaw motion
+%Vehicle.J = 2129*10e-3;                                   % rotational inertia of yaw motion
 Vehicle.L = 2.82;                                   % Wheelbase
 Vehicle.wd = 0.533;                           % Weight distribution
 Vehicle.b = Vehicle.wd*Vehicle.L;                   % distance from gravity center to rear axle
@@ -73,12 +73,12 @@ Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
 %% 
 sf=deg2rad(15);
-tmax = 5;
+tmax = 120;
 omega_steer=sf/tmax;     % [rad/sec]
 tspan = [0:omega_steer:tmax];
 N=length(tspan);
 
-%%
+%
 data=readtable("data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
@@ -100,9 +100,11 @@ Grad = zeros(numel(V_vec),N-1);
 colorlist = colormap(lines(numel(V_vec)));
 jj=0;
 
-for ii=1:numel(V_vec)
-   
-    V = V_vec(ii)/3.6;
+moltiplicatore=[0.001,0.01,0.1,1,10,100,1000];
+
+for ii=1:numel(moltiplicatore)
+    Vehicle.J = 2129*moltiplicatore(ii);
+    V = V_vec(1)/3.6;
 
     y0 = [0  0];
     
@@ -127,11 +129,12 @@ for ii=1:numel(V_vec)
 
     figure(1)
     hold on
-    plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:),LineWidth=1.5);
+    plot(ay/9.81,rad2deg(sterzo_din));%,'color',colorlist(ii,:),LineWidth=1.5);
     
     jj=jj+1;
     %leg_V(jj) = strcat('$\delta_D(u =',num2str(V_vec(ii)),' [km/h])$');
-    leg_V(jj) = strcat('$ODE (',num2str(tmax),' [sec])$');
+    %leg_V(jj) = strcat('$ODE (',num2str(tmax),' [sec])$');
+    leg_V(ii) = strcat('$J_z =',num2str(Vehicle.J),'[kg m^2]$');
 
     %scatter(ay(2,1)./9.81,mean(Grad(ii,50:1000)),'MarkerEdgeColor',colorlist(ii,:),'MarkerFaceColor',colorlist(ii,:),LineWidth=2);
     %jj=jj+1;
@@ -150,7 +153,8 @@ yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
 %txt = [' $\zeta = ',num2str(rad2deg(Vehicle.Gradiente)),' [deg/g]$'];
-%subtitle(txt,Interpreter='latex',fontsize=12);
+txt=strcat('$ODE (',num2str(tmax),' [sec])$');
+subtitle(txt,Interpreter='latex',fontsize=12);
 %xline(Tyre.mu,'--',Color='red');
 %mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];
 %
