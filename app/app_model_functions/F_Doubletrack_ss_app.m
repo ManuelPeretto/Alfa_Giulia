@@ -1,4 +1,4 @@
-function [Solution] = F_Doubletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model)
+function [Solution] = F_Doubletrack_ss_app(V,deltaf_vec,Vehicle,Tyre,N,choice_model)
 
 Solution = table;
 toe_f=Vehicle.toe_f;
@@ -35,7 +35,7 @@ for ik=1:N
 
     [deltal,deltar]=Ackermann(deg2rad(deltaf_vec(ik)),Vehicle);
     
-    fun = @(x)F_Doubletrack_solve_ss(x,U,Vehicle,deltal,deltar,Tyre,choice_model);
+    fun = @(x)F_Doubletrack_solve_ss_app(x,U,Vehicle,deltal,deltar,Tyre,choice_model);
     [x,fval,exitflag,output] = fsolve(fun,x0,options);                                % solve non linear system
 
     j=1;

@@ -1,5 +1,5 @@
 
-function [Solution] = F_Singletrack_costant_radius(V,R_vec,Vehicle,Tyre,N,choice_model)
+function [Solution] = F_Singletrack_costant_radius_app(V,R_vec,Vehicle,Tyre,N,choice_model)
 
 alfaf_vec=zeros(1,N);
 alfar_vec=zeros(1,N);
@@ -20,7 +20,7 @@ for ik=1:N
     U=V(ik);
     R = R_vec(ik);
             
-    fun = @(x)F_Singletrack_solve_costant_radius(x,U,Vehicle,Tyre,R,choice_model);
+    fun = @(x)F_Singletrack_solve_costant_radius_app(x,U,Vehicle,Tyre,R,choice_model);
     
     [x,fval,exitflag,output] = fsolve(fun,x0,options);                         % solve non linear system
     

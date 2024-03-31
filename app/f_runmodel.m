@@ -22,10 +22,10 @@ for i_operatingConditions = 1:dimension(1)
     Vehicle.iz=i_operatingConditions;
     switch app.VehicleModelDropDown.Value
         case {1 2}
-            [Solution] = [Solution ; F_Singletrack_ss(V_vec,deltaf_vec,Vehicle,Tyre,N,app.VehicleModelDropDown.Value)]; % review outputs of function (all in one structure)
+            [Solution] = [Solution ; F_Singletrack_ss_app(V_vec,deltaf_vec,Vehicle,Tyre,N,app.VehicleModelDropDown.Value)]; % review outputs of function (all in one structure)
 
         case {3 4}
-            [Solution] = [Solution ; F_Doubletrack_ss(V_vec,deltaf_vec,Vehicle,Tyre,N,app.VehicleModelDropDown.Value)]; % review outputs of function (all in one structure)
+            [Solution] = [Solution ; F_Doubletrack_ss_app(V_vec,deltaf_vec,Vehicle,Tyre,N,app.VehicleModelDropDown.Value)]; % review outputs of function (all in one structure)
     end
     %Solution_mat(i_operatingConditions)=Solution;
 end
@@ -35,10 +35,10 @@ else % if Constant radius
         R_vec = zeros(1,N) + R(ii);  % vector steer angle fixed
         switch choice_model
             case {1 2}
-                [Solution] = F_Singletrack_costant_radius(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
+                [Solution] = F_Singletrack_costant_radius_app(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
 
             case {3 4}
-                [Solution] = F_Doubletrack_costant_radius(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
+                [Solution] = F_Doubletrack_costant_radius_app(V_vec,R_vec,Vehicle,Tyre,N,choice_model);
         end
     end
 end

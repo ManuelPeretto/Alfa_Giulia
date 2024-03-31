@@ -2,7 +2,7 @@
 %---------------------------------------------------------------
 %  Define Non-Linear sistem
 %---------------------------------------------------------------
-function F = F_Singletrack_solve_ss(x,U,Vehicle,Tyre,delta,choice_model)
+function F = F_Singletrack_solve_ss_app(x,U,Vehicle,Tyre,delta,choice_model)
 
 m = Vehicle.m;
 a = Vehicle.a;

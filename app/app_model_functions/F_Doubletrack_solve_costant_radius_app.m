@@ -2,7 +2,7 @@
 %---------------------------------------------------------------
 %  Define Non-Linear sistem
 %---------------------------------------------------------------
-function F = F_Doubletrack_solve_costant_radius(x,U,Vehicle,Tyre,R,choice_model)
+function F = F_Doubletrack_solve_costant_radius_app(x,U,Vehicle,Tyre,R,choice_model)
 
 m = Vehicle.m;
 a = Vehicle.a;
@@ -37,14 +37,14 @@ switch choice_model
 end
 
 switch Vehicle.choice_approx
-    case 1
+    case 0
         F =[x(3) + (x(1) + omega*a) / (U) - x(2);
             x(4) + (x(1) + omega*a) / (U) - x(2);
             x(5) + (x(1) - omega*b) / (U);
             x(6) + (x(1) - omega*b) / (U);
             ((Fyfl + Fyfr + Fyrl + Fyrr) / m) - omega*U;
             (Fyfl+Fyfr)*a - (Fyrl+Fyrr)*b];
-    case 2
+    case 1
         F =[x(3) + ( x(1) + omega * Vehicle.a) / (U) - x(2);
             x(4) + ( x(1) + omega * Vehicle.a) / (U) - x(2);
             x(5) + ( x(1) - omega * Vehicle.b) / (U);

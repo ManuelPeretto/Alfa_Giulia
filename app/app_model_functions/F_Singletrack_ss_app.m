@@ -1,5 +1,5 @@
 
-function [Solution] = F_Singletrack_ss(V,deltaf_vec,Vehicle,Tyre,N,choice_model)
+function [Solution] = F_Singletrack_ss_app(V,deltaf_vec,Vehicle,Tyre,N,choice_model)
 
 Solution = table;
 alfaf_vec=zeros(N,1);
@@ -20,7 +20,7 @@ for ik=1:N
     U=V(ik);
     delta=deg2rad(deltaf_vec(ik));
             
-    fun = @(x)F_Singletrack_solve_ss(x,U,Vehicle,Tyre,delta,choice_model);
+    fun = @(x)F_Singletrack_solve_ss_app(x,U,Vehicle,Tyre,delta,choice_model);
     
     [x,fval,exitflag,output] = fsolve(fun,x0,options);                         % solve non linear system
     

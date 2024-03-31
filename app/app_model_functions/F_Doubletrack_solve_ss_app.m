@@ -2,7 +2,7 @@
 %---------------------------------------------------------------
 %  Define Non-Linear sistem
 %---------------------------------------------------------------
-function F = F_Doubletrack_solve_ss(x,U,Vehicle,deltal,deltar,Tyre,choice_model)
+function F = F_Doubletrack_solve_ss_app(x,U,Vehicle,deltal,deltar,Tyre,choice_model)
 
 toe_r = Vehicle.toe_r;
 
@@ -39,14 +39,14 @@ switch choice_model
 end
 
 switch Vehicle.choice_approx
-    case 1
+    case 0
         F =[x(3) + ( x(1) + x(2) * Vehicle.a) / (U) - deltal;                            % 0 = alfa_fl + (v + omega*a)/(u + omega*Wf) - deltafrontleft ;
             x(4) + ( x(1) + x(2) * Vehicle.a) / (U) - deltar;                            % 0 = alfa_fr + (v + omega*a)/(u - omega*Wf) - deltafrontright ;
             x(5) + ( x(1) - x(2) * Vehicle.b) / (U) - deg2rad(toe_r);                    % 0 = alfa_rl + (v - omega*b)/(u + omega*Wr)
             x(6) + ( x(1) - x(2) * Vehicle.b) / (U) + deg2rad(toe_r);                    % 0 = alfa_rr + (v - omega*b)/(u - omega*Wr)
             (Fyfl + Fyfr + Fyrl + Fyrr) / Vehicle.m - x(2) * U;                          % 0 = (Fyfl+Fyfr+Fyrl+Fyrr) / m - omega*u ;
             (Fyfl + Fyfr) * Vehicle.a - (Fyrl + Fyrr) * Vehicle.b];                      % 0 = ( (Fyfl + Fyfr)*a - (Fyrl + Fyrr)*b ) / J ;
-    case 2
+    case 1
         F =[x(3) + ( x(1) + x(2) * Vehicle.a) / (U) - deltal;
             x(4) + ( x(1) + x(2) * Vehicle.a) / (U) - deltar;
             x(5) + ( x(1) - x(2) * Vehicle.b) / (U) - deg2rad(toe_r);
