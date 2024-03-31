@@ -68,7 +68,7 @@ Solution.u = V;
 Solution.v = v_vec;
 Solution.r = r_vec;
 Solution.r_u = r_vec./V;
-Solution.ay = V * r_vec;
+Solution.ay = V .* r_vec;
 Solution.deltaf_vec=deltaf_vec;
 
 Solution.alfa_f=alfaf_vec;
