@@ -1,7 +1,11 @@
 
 
-function [deltal,deltar]=Ackermann(deltaf,toe,percentuale_Ack,Wf,L)
+function [deltal,deltar]=Ackermann(deltaf,Vehicle)
         
+        toe= deg2rad(Vehicle.toe_f);
+        percentuale_Ack = Vehicle.percentuale_Ack;
+        Wf = Vehicle.Wf;
+        L = Vehicle.L;
     
 
         delta_e_A = atan( L * tan( deltaf ) ./ (L + 0.5 * Wf * tan(deltaf)));
