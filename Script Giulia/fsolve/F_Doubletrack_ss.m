@@ -84,7 +84,7 @@ for ik=1:N
             outMF_fl = mfeval(Tyre.Params_f , [Fzfl 0 x(3) -camber_fr 0 U] , 211);
             outMF_fr = mfeval(Tyre.Params_f , [Fzfr 0 x(4) +camber_fl 0 U] , 211);
             outMF_rl = mfeval(Tyre.Params_r , [Fzrl 0 x(5) -camber_rr 0 U] , 211);
-            outMF_rr = mfeval(Tyre.Params_r , [Fzrr 0 x(6) -camber_rl 0 U] , 211);
+            outMF_rr = mfeval(Tyre.Params_r , [Fzrr 0 x(6) +camber_rl 0 U] , 211);
 
             Fyfl = -outMF_fl(:,2);
             Fyfr = -outMF_fr(:,2);
