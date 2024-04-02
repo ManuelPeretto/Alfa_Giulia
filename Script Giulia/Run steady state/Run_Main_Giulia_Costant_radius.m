@@ -88,7 +88,7 @@ Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
 %%
 choice_model = menu("Choose a Vehicle model","Single track linear","Single track NON linear","Double track linear","Double track NON linear");
-Vehicle.choice_approx = menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
+Vehicle.choice_approx = 1; %menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
 
 %%
 leg = string(numel(R)*2 +2);
@@ -136,7 +136,12 @@ set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 xlim([0 Tyre.mu+0.1]);
-ylim([0 2]);
+switch choice_tyres
+    case {1 2}
+        ylim([0 2]);
+    case 3
+        ylim([-0.2 1]);
+end
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);

@@ -144,8 +144,12 @@ set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 xlim([0 Tyre.mu+0.1]);
-%ylim([0 2]);
-ylim([-0.2 1]);
+switch choice_tyres
+    case {1 2}
+        ylim([0 2]);
+    case 3
+        ylim([-0.2 1]);
+end
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
