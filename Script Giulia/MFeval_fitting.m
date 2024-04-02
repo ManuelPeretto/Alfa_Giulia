@@ -7,31 +7,41 @@ TyreData = table;
 % data
 data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 % side slip angle
-TyreData.alfa_fl = data.Tire_Lateral_Slip_Without_Lag_L1;
-TyreData.alfa_fr = data.Tire_Lateral_Slip_Without_Lag_R2;
-TyreData.alfa_rl = data.Tire_Lateral_Slip_Without_Lag_L1;
-TyreData.alfa_rr = data.Tire_Lateral_Slip_Without_Lag_R2;
+alfa_fl = data.Tire_Lateral_Slip_Without_Lag_L1;
+alfa_fr = data.Tire_Lateral_Slip_Without_Lag_R2;
+alfa_rl = data.Tire_Lateral_Slip_Without_Lag_L1;
+alfa_rr = data.Tire_Lateral_Slip_Without_Lag_R2;
 % Lateral force
-TyreData.Fy_fl = data.Tire_Ground_Surface_Force_Y_R1;
-TyreData.Fy_fr = data.Tire_Ground_Surface_Force_Y_L1;
-TyreData.Fy_rl = data.Tire_Ground_Surface_Force_Y_R2;
-TyreData.Fy_rr = data.Tire_Ground_Surface_Force_Y_L2;
+Fy_fl = data.Tire_Ground_Surface_Force_Y_R1;
+Fy_fr = data.Tire_Ground_Surface_Force_Y_L1;
+Fy_rl = data.Tire_Ground_Surface_Force_Y_R2;
+Fy_rr = data.Tire_Ground_Surface_Force_Y_L2;
 % Radial force
-TyreData.Fz_fl = data.Tire_Ground_Surface_Force_Z_R1;
-TyreData.Fz_fr = data.Tire_Ground_Surface_Force_Z_L1;
-TyreData.Fz_rl = data.Tire_Ground_Surface_Force_Z_R2;
-TyreData.Fz_rr = data.Tire_Ground_Surface_Force_Z_L2;
+Fz_fl = data.Tire_Ground_Surface_Force_Z_R1;
+Fz_fr = data.Tire_Ground_Surface_Force_Z_L1;
+Fz_rl = data.Tire_Ground_Surface_Force_Z_R2;
+Fz_rr = data.Tire_Ground_Surface_Force_Z_L2;
 % Camber angle [rad]
-TyreData.camber_fl = data.wheel_angles_camber_L1;
-TyreData.camber_fr = data.wheel_angles_camber_R1;
-TyreData.camber_rl = data.wheel_angles_camber_L2;
-TyreData.camber_rr = data.wheel_angles_camber_R2;
+camber_fl = data.wheel_angles_camber_L1;
+camber_fr = data.wheel_angles_camber_R1;
+camber_rl = data.wheel_angles_camber_L2;
+camber_rr = data.wheel_angles_camber_R2;
 % Longitudinal slip
-TyreData.Kappa_fl = data.Tire_Longitudinal_Slip_Without_Lag_L1;
-TyreData.Kappa_fr = data.Tire_Longitudinal_Slip_Without_Lag_R1;
-TyreData.Kappa_rl = data.Tire_Longitudinal_Slip_Without_Lag_L2;
-TyreData.Kappa_rr = data.Tire_Longitudinal_Slip_Without_Lag_R2;
+Kappa_fl = data.Tire_Longitudinal_Slip_Without_Lag_L1;
+Kappa_fr = data.Tire_Longitudinal_Slip_Without_Lag_R1;
+Kappa_rl = data.Tire_Longitudinal_Slip_Without_Lag_L2;
+Kappa_rr = data.Tire_Longitudinal_Slip_Without_Lag_R2;
 
+N=numel(alfa_fl);
+TyreData.SA = alfa_fl;
+TyreData.Fy = Fy_fl;
+TyreData.Fz = Fz_fl;
+TyreData.IA = camber_fl;
+TyreData.SR = Kappa_fl;
+TyreData.Vx = zeros(N,1) + 60/3.6;
+TyreData.Phit = zeros(N,1);
+%TyreData.P = ;
+%TyreData.W = ;
 
 
 % Load a TIR file as a starting point for the fitting
