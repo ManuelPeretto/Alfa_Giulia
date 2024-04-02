@@ -78,7 +78,7 @@ deltaf = [5:5:20];   % [deg]  Input steer angle;
 
 %%
 choice_model = menu("Choose a Vehicle model","Single track linear","Single track NON linear","Double track linear","Double track NON linear");
-Vehicle.choice_approx = 1;%menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
+Vehicle.choice_approx = menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
 %% Calc undeersteer gradient
 
 [Tyre] = F_Calcola_CS(20,Vehicle,Tyre,choice_model);
