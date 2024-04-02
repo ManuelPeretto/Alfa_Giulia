@@ -8,7 +8,7 @@ currentFile = mfilename('fullpath');
 addpath(genpath(pathstr));
 
 %%
-[Tyre] = select_file_tir(pathstr);
+[Tyre.Params_f] = select_file_tir(pathstr);
 
 %%
 n = 1000;
@@ -41,7 +41,7 @@ plot(alpha,Fy,LineWidth=1.5,color=color_list(ii,:));
 [PiccoFy,IndicePicco] = max(Fy);
 alpha_picco(ii) = alpha(IndicePicco);
 
-leg(ii) = strcat('$F_y (\gamma = ',num2str(camber_vec(ii)),' [deg]$');
+leg(ii) = strcat('$F_y (\gamma = ',num2str(camber_vec(ii)),' [deg])$');
 
 
 

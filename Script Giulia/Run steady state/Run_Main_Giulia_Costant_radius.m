@@ -1,5 +1,5 @@
 clear
-close
+close all
 clc
 
 currentFile = mfilename('fullpath');

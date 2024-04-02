@@ -13,9 +13,7 @@ switch choice_model
     case 1
         Fyf= x(1) * Tyre.CSf;
         Fyr= x(2) * Tyre.CSr;
-
     case 2   
-
         inputsMF_f = [Vehicle.Fzf/2 0 x(1) 0 0 U];
         outMF_f = mfeval(Tyre.Params_f , inputsMF_f , 111);
         Fyf = -2*outMF_f(:,2);
