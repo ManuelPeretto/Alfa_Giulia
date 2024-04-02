@@ -1,12 +1,13 @@
-clear
-close
+clear 
+close all
+clc
 
 currentFile = mfilename('fullpath');
 [pathstr, ~, ~] = fileparts(currentFile);
 path_giulia = fileparts(pathstr);
 addpath(genpath(path_giulia));
 
-%% Parameters Input
+%% Vehicle Parameters
 Vehicle.m = 1449;                                   % total mass in Kg
 Vehicle.J = 2129;                                   % rotational inertia of yaw motion
 Vehicle.L = 2.82;                                   % Wheelbase
@@ -15,11 +16,11 @@ Vehicle.b = Vehicle.wd*Vehicle.L;                   % distance from gravity cent
 Vehicle.a = Vehicle.L-Vehicle.b;                    % distance from gravity center to front axle
 Vehicle.tau = 11.8;
 
-Vehicle.Wf = 1.557;             % Wheel track front 
-Vehicle.Wr = 1.625;             % Wheel track rear
-Vehicle.h = 0.592;              % Gravity center height
-Vehicle.dr = 0.086;             % height of rear roll center
-Vehicle.df = 0.041;             % height of front roll center
+Vehicle.Wf = 1.557;                                 % Wheel track front 
+Vehicle.Wr = 1.625;                                 % Wheel track rear
+Vehicle.h = 0.592;                                  % Gravity center height
+Vehicle.dr = 0.086;                                 % height of rear roll center
+Vehicle.df = 0.041;                                 % height of front roll center
 Vehicle.dd = Vehicle.df+(Vehicle.dr-Vehicle.df)*Vehicle.a/Vehicle.L;
 
 Vehicle.ks_f = 20.8e3;                             % N/m % front suspension stiffness
@@ -45,15 +46,19 @@ Vehicle.Fzr = Vehicle.m * 9.81 * Vehicle.a / Vehicle.L;       % Radial Force on 
 Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b / Vehicle.h * Vehicle.df / Vehicle.L);
 
 %% select file tir
-
-%[Tyre] = select_file_tir(path_giulia);
-
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\Toyo_AlfaGiulia.tir");
-
-%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
-%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
-
+%choice_tyres = menu("Choose tyres","Select","Toyo","Pirelli V1");
+choice_tyres = 3;
+switch choice_tyres
+    case 1
+        [Tyre.Params_f] = select_file_tir(path_giulia);
+        [Tyre.Params_r] = select_file_tir(path_giulia);
+    case 2
+        Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"\file tir\Toyo_AlfaGiulia.tir"));
+        Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"\file tir\Toyo_AlfaGiulia.tir"));
+    case 3
+        Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir"));
+        Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir"));
+end
 %% Set simulation Time
 dt=0.1;    % time step [s]
 tMax=30;   % final time [s]
@@ -73,7 +78,7 @@ deltaf = [5:5:20];   % [deg]  Input steer angle;
 
 %%
 choice_model = menu("Choose a Vehicle model","Single track linear","Single track NON linear","Double track linear","Double track NON linear");
-Vehicle.choice_approx = menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
+Vehicle.choice_approx = 1;%menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
 %% Calc undeersteer gradient
 
 [Tyre] = F_Calcola_CS(20,Vehicle,Tyre,choice_model);
@@ -137,7 +142,12 @@ set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 xlim([0 Tyre.mu+0.1]);
-ylim([0 2]);
+switch choice_tyres
+    case {1 2}
+        ylim([0 2]);
+    case 3
+        ylim([-0.2 1]);
+end
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
