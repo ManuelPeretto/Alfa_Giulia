@@ -1,5 +1,6 @@
 clear
 close
+clc
 
 currentFile = mfilename('fullpath');
 [pathstr, ~, ~] = fileparts(currentFile);

@@ -11,7 +11,7 @@ addpath(genpath(path_giulia));
 Vehicle.m = 1750;                  % total mass in Kg
 Vehicle.J = 2129;                  % rotational inertia of yaw motion
 Vehicle.L = 2.82;                  % Wheelbase
-Vehicle.wd = 0.533;                 % Weight distribution
+Vehicle.wd = 0.533;                % Weight distribution
 Vehicle.b = Vehicle.wd*Vehicle.L;  % distance from gravity center to rear axle
 Vehicle.a = Vehicle.L-Vehicle.b;   % distance from gravity center to front axle
 Vehicle.tau = 11.8;
@@ -61,7 +61,7 @@ tvec=[0:dt:tMax]; % generate time vector
 N=length(tvec);
 
 %%
-data=readtable("data_Manuel_long_13_03_2024.csv");
+data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
 %Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_R1,tvec');

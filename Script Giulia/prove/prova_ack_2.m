@@ -2,15 +2,18 @@ close all
 clear
 clc
 
-addpath("C:\Users\manue\Desktop\Script Giulia\Functions")
+currentFile = mfilename('fullpath');
+[pathstr, ~, ~] = fileparts(currentFile);
+path_giulia = fileparts(pathstr);
+addpath(genpath(path_giulia));
 
 
-Vehicle.Wf=1.5;
-Vehicle.L=3.11;
+Vehicle.Wf=1.557;
+Vehicle.L=2.82;
 
-deltaf_vec=linspace(0,0.2,100);
+deltaf_vec=linspace(0,0.26,100);
 
-Vehicle.toe_f=deg2rad(0); % toe-in (positivo) [ruote convergono]
+Vehicle.toe_f=deg2rad(0); 
 Vehicle.percentuale_Ack=1;
 
 txt = [' $Ackermann = ',num2str(Vehicle.percentuale_Ack*100),'\%$'];
