@@ -21,17 +21,5 @@ function [deltal,deltar]=Ackermann(deltaf,Vehicle)
         
         deltal = delta_e;
         deltar = delta_i;
-        
-%         segno = sign(deltaf);
-%         switch segno
-%             case 1
-%                 deltal = delta_e;
-%                 deltar = delta_i;
-%             case -1
-%                 deltal = delta_i;
-%                 deltar = delta_e;
-%             case 0
-%                 deltal = 0;
-%                 deltar = 0;
-%         end     
+            
  end        

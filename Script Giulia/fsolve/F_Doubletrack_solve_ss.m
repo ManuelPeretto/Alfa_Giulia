@@ -27,10 +27,10 @@ switch choice_model
         Fzrl = Vehicle.m * 9.81 * Vehicle.a / (2*Vehicle.L) + Vehicle.m * ay * Vehicle.h * (1-Vehicle.d) / (2*Vehicle.Wr);   % Radial Force on rear left tyre
         Fzrr = Vehicle.m * 9.81 * Vehicle.a / (2*Vehicle.L) - Vehicle.m * ay * Vehicle.h * (1-Vehicle.d) / (2*Vehicle.Wr);   % Radial Force on rear right tyre
 
-        outMF_fl = mfeval(Tyre.Params_f , [Fzfl 0 x(3) -camber_fr 0 U] , 211);
-        outMF_fr = mfeval(Tyre.Params_f , [Fzfr 0 x(4) +camber_fl 0 U] , 211);
-        outMF_rl = mfeval(Tyre.Params_r , [Fzrl 0 x(5) -camber_rr 0 U] , 211);
-        outMF_rr = mfeval(Tyre.Params_r , [Fzrr 0 x(6) +camber_rl 0 U] , 211);
+        outMF_fl = mfeval(Tyre.Params_f , [Fzfl 0 x(3) -camber_fl 0 U] , 211);
+        outMF_fr = mfeval(Tyre.Params_f , [Fzfr 0 x(4) +camber_fr 0 U] , 211);
+        outMF_rl = mfeval(Tyre.Params_r , [Fzrl 0 x(5) -camber_rl 0 U] , 211);
+        outMF_rr = mfeval(Tyre.Params_r , [Fzrr 0 x(6) +camber_rr 0 U] , 211);
 
         Fyfl = -outMF_fl(:,2);   % Lateral Force Front Left
         Fyfr = -outMF_fr(:,2);   % Lateral Force Front Right

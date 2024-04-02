@@ -64,10 +64,10 @@ N=length(tvec);
 data=readtable("data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
-%Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_L1,tvec');
-%Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_R1,tvec');
-%Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_L2,tvec');
-%Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_R2,tvec');
+%Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_R1,tvec');
+%Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_L1,tvec');
+%Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_R2,tvec');
+%Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_L2,tvec');
 
 Vehicle.camber_fl = zeros(N,1);
 Vehicle.camber_fr = zeros(N,1);
