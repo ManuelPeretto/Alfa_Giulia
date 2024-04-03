@@ -49,8 +49,8 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %% select file tir
 
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
+Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
+Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
 
 %% Rampsteer simulation
 
@@ -73,24 +73,11 @@ Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
 %% 
 sf=deg2rad(15);
-tmax = 120;
+tmax = 60;
 omega_steer=sf/tmax;     % [rad/sec]
 tspan = [0:omega_steer:tmax];
 N=length(tspan);
 
-%
-data=readtable("data_Manuel_long_13_03_2024.csv");
-time = data.time_TIME;
-
-Vehicle.Kappa_fl = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_L1,tspan');
-Vehicle.Kappa_fr = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_R1,tspan');
-Vehicle.Kappa_rl = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_L2,tspan');
-Vehicle.Kappa_rr = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_R2,tspan');
-
-Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_L1,tspan');
-Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_R1,tspan');
-Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_L2,tspan');
-Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_R2,tspan');
 %%
 
 options= odeset('RelTol',1e-6,'AbsTol',1e-3,'InitialStep',1e-3,'Refine',2,'Stats','on');
@@ -153,7 +140,7 @@ yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
 %txt = [' $\zeta = ',num2str(rad2deg(Vehicle.Gradiente)),' [deg/g]$'];
-txt=strcat('$ODE (',num2str(tmax),' [sec])$');
+txt=strcat('$ODE (',num2str(tmax),' [s])$');
 subtitle(txt,Interpreter='latex',fontsize=12);
 %xline(Tyre.mu,'--',Color='red');
 %mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];

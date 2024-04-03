@@ -19,12 +19,6 @@ function dydt = ode_eoq_doubletrack_rampsteer_giulia(t,y,speed,Vehicle,Tyre,omeg
      u = speed;  % longitudinal speed
      v = y(1);  % lateral speed
      r = y(2);  % omega
-     
-     % Define longitudinal Force.
-     Fxfl = 0;
-     Fxfr = 0;
-     Fxrl = 0;
-     Fxrr = 0;
 
      ay = u.*r;
      
@@ -46,22 +40,17 @@ function dydt = ode_eoq_doubletrack_rampsteer_giulia(t,y,speed,Vehicle,Tyre,omeg
              Fyfr = (Tyre.CSf/2) .* alfa_fr;
              Fyrl = (Tyre.CSr/2) .* alfa_rl;
              Fyrr = (Tyre.CSr/2) .* alfa_rr;
-         case 4      
+         case 4 
 
-             Kappa_fl = 0;%Vehicle.Kappa_fl;
-             Kappa_fr = 0;%Vehicle.Kappa_fr;
-             Kappa_rl = 0;%Vehicle.Kappa_rl;
-             Kappa_rr = 0;%Vehicle.Kappa_rr;
+             camber_fl = 0;
+             camber_fr = 0;
+             camber_rl = 0;
+             camber_rr = 0;
 
-             camber_fl = 0;%Vehicle.camber_fl;
-             camber_fr = 0;%Vehicle.camber_fr;
-             camber_rl = 0;%Vehicle.camber_rl;
-             camber_rr = 0;%Vehicle.camber_rr;
-
-             outMF_fl = mfeval(Tyre.Params_f , [Fzfl Kappa_fl alfa_fl camber_fl 0 u] , 111);
-             outMF_fr = mfeval(Tyre.Params_f , [Fzfr Kappa_fr alfa_fr camber_fr 0 u] , 111);
-             outMF_rl = mfeval(Tyre.Params_r , [Fzrl Kappa_rl alfa_rl camber_rl 0 u] , 111);
-             outMF_rr = mfeval(Tyre.Params_r , [Fzrr Kappa_rr alfa_rr camber_rr 0 u] , 111);
+             outMF_fl = mfeval(Tyre.Params_f , [Fzfl 0 alfa_fl -camber_fl 0 u] , 111);
+             outMF_fr = mfeval(Tyre.Params_f , [Fzfr 0 alfa_fr +camber_fr 0 u] , 111);
+             outMF_rl = mfeval(Tyre.Params_r , [Fzrl 0 alfa_rl -camber_rl 0 u] , 111);
+             outMF_rr = mfeval(Tyre.Params_r , [Fzrr 0 alfa_rr +camber_rr 0 u] , 111);
 
              Fyfl = -outMF_fl(:,2);   % Lateral Force Front Left
              Fyfr = -outMF_fr(:,2);   % Lateral Force Front Right
@@ -70,12 +59,10 @@ function dydt = ode_eoq_doubletrack_rampsteer_giulia(t,y,speed,Vehicle,Tyre,omeg
      end
 
      dydt = zeros(2,1);
-     
      % v_dot
-     dydt(1) = -r .* u + ( Fyfl + Fyfr + Fyrl + Fyrr + Fxfl + Fxfr) ./ m;
-     
+     dydt(1) = -r .* u + ( Fyfl + Fyfr + Fyrl + Fyrr) ./ m;   
      % omega_dot
-     dydt(2) = a/J .* (Fyfl + Fyfr + Fxfl + Fxfr)  -  b/J .* (Fyrl+Fyrr);  
+     dydt(2) = a/J .* (Fyfl + Fyfr)  -  b/J .* (Fyrl+Fyrr);  
 end
 
 

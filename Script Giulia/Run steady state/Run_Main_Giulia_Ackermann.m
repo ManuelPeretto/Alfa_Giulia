@@ -175,7 +175,7 @@ leg_V(end+1) = mu_txt;
 legend(leg_V,Interpreter='latex',fontsize=12);
 
 
-% 
+
 % figure()
 % hold on
 % set(gca,'TickLabelInterpreter','latex');
@@ -195,6 +195,6 @@ legend(leg_V,Interpreter='latex',fontsize=12);
 % ackermann_ott = strcat('Ackermann ottimale =',num2str(percentuale_Ack_vec(1,IndicePiccoay)));
 % ay_max = strcat('$Ay_{max}$ =',num2str(Piccoay_ack));
 % legend('','','',ackermann_ott,ay_max,Interpreter='latex',fontsize=12);
-%set(gca,'Xtick',-5:1:5,'XMinorTick','on',XTickLabelRotation = 0);
-%set(gca,'Ytick',YTickLabelRotation = 0);
+% set(gca,'Xtick',-5:1:5,'XMinorTick','on',XTickLabelRotation = 0);
+% set(gca,'Ytick',YTickLabelRotation = 0);
 

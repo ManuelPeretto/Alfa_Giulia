@@ -47,25 +47,20 @@ switch choice_linear
         Fyrr = (Tyre.CSr/2) .* alfa_rr;
     case 4
         n = numel(alfa_fl);
-        %kappa = zeros(n,1);
+        kappa = zeros(n,1);
         %gamma = zeros(n,1);
         phit = zeros (n,1);
         U = zeros(n,1) + u;
 
-        Kappa_fl = Vehicle.Kappa_fl;
-        Kappa_fr = Vehicle.Kappa_fr;
-        Kappa_rl = Vehicle.Kappa_rl;
-        Kappa_rr = Vehicle.Kappa_rr;
+        camber_fl = zeros(n,1);
+        camber_fr = zeros(n,1);
+        camber_rl = zeros(n,1);
+        camber_rr = zeros(n,1);
 
-        camber_fl = Vehicle.camber_fl;
-        camber_fr = Vehicle.camber_fr;
-        camber_rl = Vehicle.camber_rl;
-        camber_rr = Vehicle.camber_rr;
-
-        outMF_fl = mfeval(Tyre.Params_f , [Fzfl Kappa_fl alfa_fl +camber_fr phit U] , 111);
-        outMF_fr = mfeval(Tyre.Params_f , [Fzfr Kappa_fr alfa_fr -camber_fl phit U] , 111);
-        outMF_rl = mfeval(Tyre.Params_r , [Fzrl Kappa_rl alfa_rl +camber_rr phit U] , 111);
-        outMF_rr = mfeval(Tyre.Params_r , [Fzrr Kappa_rr alfa_rr -camber_rl phit U] , 111);
+        outMF_fl = mfeval(Tyre.Params_f , [Fzfl kappa alfa_fl +camber_fr phit U] , 111);
+        outMF_fr = mfeval(Tyre.Params_f , [Fzfr kappa alfa_fr -camber_fl phit U] , 111);
+        outMF_rl = mfeval(Tyre.Params_r , [Fzrl kappa alfa_rl +camber_rr phit U] , 111);
+        outMF_rr = mfeval(Tyre.Params_r , [Fzrr kappa alfa_rr -camber_rl phit U] , 111);
 
         Fyfl = -outMF_fl(:,2);   % Lateral Force Front Left
         Fyfr = -outMF_fr(:,2);   % Lateral Force Front Right
