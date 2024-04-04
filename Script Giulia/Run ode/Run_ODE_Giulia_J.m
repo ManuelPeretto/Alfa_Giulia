@@ -73,7 +73,7 @@ Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
 %% 
 sf=deg2rad(15);
-tmax = 60;
+tmax = 120;
 omega_steer=sf/tmax;     % [rad/sec]
 tspan = [0:omega_steer:tmax];
 N=length(tspan);

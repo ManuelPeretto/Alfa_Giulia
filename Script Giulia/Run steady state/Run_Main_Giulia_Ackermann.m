@@ -46,7 +46,7 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %% select file tir
 %choice_tyres = menu("Choose tyres","Select","Toyo","Pirelli V1");
-choice_tyres = 3;
+choice_tyres = 2;
 switch choice_tyres
     case 1
         [Tyre.Params_f] = select_file_tir(path_giulia);
@@ -93,8 +93,9 @@ Vehicle.camber_rr = zeros(N,1);
 
 %% 
 
-% percentuale_Ack_vec = [0 : 0.5 : 1];
+%percentuale_Ack_vec = [-5 : 0.5 : 5];
 percentuale_Ack_vec = [-8.5,-1,0,1];
+%percentuale_Ack_vec = [-1,0,1,2];
 n = numel(percentuale_Ack_vec);
 
 leg_V=string(n*2);
@@ -133,13 +134,14 @@ for ii=1:n
     plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:));
     
     jj=jj+1;
-    leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$ , $\delta_{in} =',num2str(rad2deg(deltar_star)),'$ [deg] , $\delta_{out} =',num2str(rad2deg(deltal_star)),'$ [deg], $\delta_{input} =',num2str(delta_star),'$ [deg]');
+    %leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$ , $\delta_{in} =',num2str(rad2deg(deltar_star)),'$ [deg] , $\delta_{out} =',num2str(rad2deg(deltal_star)),'$ [deg], $\delta_{input} =',num2str(delta_star),'$ [deg]');
+    leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$');
 
     %scatter(ay(1,2)./9.81,Grad(ii,1),'MarkerEdgeColor',colorlist(ii,:),'MarkerFaceColor',colorlist(ii,:),LineWidth=2);
     %jj=jj+1;
     %leg_V(jj) = strcat('$\frac{d(\delta_D)}{d(ay/g)} = ' , num2str(Grad(ii,1)),' [deg/g]$');
     
-    sub_txt = strcat(txt,' , ',' Ack =',num2str(percentuale_Ack_vec(ii)));
+    %sub_txt = strcat(txt,' , ',' Ack =',num2str(percentuale_Ack_vec(ii)));
 
 %     figure
 %     hold on
@@ -162,10 +164,15 @@ set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 xlim([0 Tyre.mu+0.1]);
-ylim([0 2]);
+switch choice_tyres
+    case {1 2}
+        ylim([0 2]);
+    case 3
+        ylim([-0.2 1]);
+end
 yline(0,'--');
 
-title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
+%title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
 subtitle(txt,Interpreter='latex',fontsize=12);
 xline(Tyre.mu,'--',Color='red');
 mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];
@@ -191,10 +198,12 @@ legend(leg_V,Interpreter='latex',fontsize=12);
 % [Piccoay_ack,IndicePiccoay] = max(Piccoay/9.81);
 % xline(percentuale_Ack_vec(1,IndicePiccoay),'--g');
 % plot(percentuale_Ack_vec(1,IndicePiccoay) , Piccoay_ack , 'xr','MarkerSize',20);
+% lim_min = percentuale_Ack_vec(1);
+% lim_max = percentuale_Ack_vec(end);
 % 
 % ackermann_ott = strcat('Ackermann ottimale =',num2str(percentuale_Ack_vec(1,IndicePiccoay)));
 % ay_max = strcat('$Ay_{max}$ =',num2str(Piccoay_ack));
 % legend('','','',ackermann_ott,ay_max,Interpreter='latex',fontsize=12);
-% set(gca,'Xtick',-5:1:5,'XMinorTick','on',XTickLabelRotation = 0);
+% set(gca,'Xtick',lim_min:1:lim_max,'XMinorTick','off',XTickLabelRotation = 0);
 % set(gca,'Ytick',YTickLabelRotation = 0);
 
