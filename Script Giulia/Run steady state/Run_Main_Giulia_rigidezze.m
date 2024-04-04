@@ -33,7 +33,7 @@ Vehicle.k_antiroll_r = 1.1709e+04;                % rear rollbar stiffness
 Vehicle.k_roll_r = Vehicle.Wr^2 / 2 * (Vehicle.ks_r + 2 * Vehicle.k_antiroll_r); % rear roll stiffness
 
 
-
+Vehicle.percentuale_Ack = 0;
 Vehicle.toe_f = 0;     % [deg]
 Vehicle.toe_r = 0;     % [deg]
 
@@ -42,7 +42,7 @@ Vehicle.Fzf = Vehicle.m * 9.81 * Vehicle.b / Vehicle.L;       % Radial Force on 
 Vehicle.Fzr = Vehicle.m * 9.81 * Vehicle.a / Vehicle.L;       % Radial Force on rear axle
 
 % load transfer distribution
-Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b / Vehicle.h * Vehicle.df / Vehicle.L);
+%Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b / Vehicle.h * Vehicle.df / Vehicle.L);
 
 %% select file tir
 %choice_tyres = menu("Choose tyres","Select","Toyo","Pirelli V1");
@@ -93,10 +93,9 @@ Vehicle.camber_rr = zeros(N,1);
 
 %% 
 
-%percentuale_Ack_vec = [-5 : 0.5 : 5];
-percentuale_Ack_vec = [-8.5,-1,0,1];
-%percentuale_Ack_vec = [-1,0,1,2];
-n = numel(percentuale_Ack_vec);
+%Kf_K_vec = [0.3:0.1:0.8];
+Kf_K_vec = [0.4 0.5 0.6];
+n = numel(Kf_K_vec);
 
 leg_V=string(n*2);
 Grad = zeros(n,N-1);
@@ -112,6 +111,7 @@ txt = [' $Rampsteer','',num2str(V_vec(1)),' [km/h]$'];
 for ii=1:n
 
      Vehicle.Kf_K = Kf_K_vec(ii);
+     Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b / Vehicle.h * Vehicle.df / Vehicle.L);
 
     %% Vehicle
 
@@ -131,11 +131,11 @@ for ii=1:n
 
     figure(1)
     hold on
-    plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:));
+    plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:),LineWidth=1.5);
     
     jj=jj+1;
     %leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$ , $\delta_{in} =',num2str(rad2deg(deltar_star)),'$ [deg] , $\delta_{out} =',num2str(rad2deg(deltal_star)),'$ [deg], $\delta_{input} =',num2str(delta_star),'$ [deg]');
-    leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$');
+    leg_V(jj) = strcat('$\delta_D (\frac{K_f}{K} =',num2str(Kf_K_vec(ii)),')$');
 
     %scatter(ay(1,2)./9.81,Grad(ii,1),'MarkerEdgeColor',colorlist(ii,:),'MarkerFaceColor',colorlist(ii,:),LineWidth=2);
     %jj=jj+1;

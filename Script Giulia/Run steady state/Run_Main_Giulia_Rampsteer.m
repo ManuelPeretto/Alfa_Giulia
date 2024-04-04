@@ -86,7 +86,7 @@ choice_model = menu("Choose a Vehicle model","Single track linear","Single track
 Vehicle.choice_approx = menu("Choose ","Cos(delta) = 1","Cos(delta) ≠ 1");
 %% Calc undeersteer gradient
 
- [Tyre] = F_Calcola_CS(V_vec(1),Vehicle,Tyre,choice_model);
+[Tyre] = F_Calcola_CS(V_vec(1),Vehicle,Tyre,choice_model);
 
 Tyre.CSnormalizzata_front = Tyre.CSf / Vehicle.Fzf;
 Tyre.CSnormalizzata_rear = Tyre.CSr / Vehicle.Fzr;
