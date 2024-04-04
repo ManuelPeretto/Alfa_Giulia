@@ -82,11 +82,6 @@ N=length(tspan);
 data=readtable("data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
-Vehicle.Kappa_fl = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_L1,tspan');
-Vehicle.Kappa_fr = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_R1,tspan');
-Vehicle.Kappa_rl = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_L2,tspan');
-Vehicle.Kappa_rr = interp1(time,data.Tire_Longitudinal_Slip_Without_Lag_R2,tspan');
-
 Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_L1,tspan');
 Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_R1,tspan');
 Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_L2,tspan');

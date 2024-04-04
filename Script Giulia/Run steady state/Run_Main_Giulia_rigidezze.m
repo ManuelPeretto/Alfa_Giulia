@@ -46,7 +46,7 @@ Vehicle.Fzr = Vehicle.m * 9.81 * Vehicle.a / Vehicle.L;       % Radial Force on 
 
 %% select file tir
 %choice_tyres = menu("Choose tyres","Select","Toyo","Pirelli V1");
-choice_tyres = 2;
+choice_tyres = 3;
 switch choice_tyres
     case 1
         [Tyre.Params_f] = select_file_tir(path_giulia);
@@ -94,7 +94,7 @@ Vehicle.camber_rr = zeros(N,1);
 %% 
 
 %Kf_K_vec = [0.3:0.1:0.8];
-Kf_K_vec = [0.4 0.5 0.6];
+Kf_K_vec = [0.45:0.05:0.75];
 n = numel(Kf_K_vec);
 
 leg_V=string(n*2);
@@ -134,27 +134,8 @@ for ii=1:n
     plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:),LineWidth=1.5);
     
     jj=jj+1;
-    %leg_V(jj) = strcat('$\delta_D (Ack =',num2str(percentuale_Ack_vec(ii)),')$ , $\delta_{in} =',num2str(rad2deg(deltar_star)),'$ [deg] , $\delta_{out} =',num2str(rad2deg(deltal_star)),'$ [deg], $\delta_{input} =',num2str(delta_star),'$ [deg]');
     leg_V(jj) = strcat('$\delta_D (\frac{K_f}{K} =',num2str(Kf_K_vec(ii)),')$');
 
-    %scatter(ay(1,2)./9.81,Grad(ii,1),'MarkerEdgeColor',colorlist(ii,:),'MarkerFaceColor',colorlist(ii,:),LineWidth=2);
-    %jj=jj+1;
-    %leg_V(jj) = strcat('$\frac{d(\delta_D)}{d(ay/g)} = ' , num2str(Grad(ii,1)),' [deg/g]$');
-    
-    %sub_txt = strcat(txt,' , ',' Ack =',num2str(percentuale_Ack_vec(ii)));
-
-%     figure
-%     hold on
-%     set(gca,'TickLabelInterpreter','latex');
-%     subtitle(sub_txt,Interpreter='latex',fontsize=12);
-%     scatter(Solution.alfa_fl,Solution.Fy_fl,'filled');
-%     scatter(Solution.alfa_fr,Solution.Fy_fr,'filled');
-%     scatter(Solution.alfa_rl,Solution.Fy_rl,'filled');
-%     scatter(Solution.alfa_rr,Solution.Fy_rr,'filled');
-%     xlabel('$\alpha [rad]$',Interpreter='latex',fontsize=16);
-%     ylabel('$F_y [N]$',Interpreter='latex',fontsize=14);
-%     ylim([0 inf]);
-%     legend('$F_{Yfl}$','$F_{Yfr}$','$F_{Yrl}$','$F_{Yrr}$',Interpreter='latex',fontsize=16);
 end    
 
 %% Graph
@@ -180,30 +161,4 @@ mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];
 leg_V(end+1) = '';
 leg_V(end+1) = mu_txt;
 legend(leg_V,Interpreter='latex',fontsize=12);
-
-
-
-% figure()
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% subtitle(sub_txt,Interpreter='latex',fontsize=12);
-% plot(percentuale_Ack_vec,Piccoay/9.81,color='blue',LineWidth=1.5);
-% xlabel('Ackermann',Interpreter='latex',fontsize=14);
-% ylabel('$max \frac{a_y}{g}$',Interpreter='latex',fontsize=16);
-% xline(0,'--');
-% indice_zero = find(~percentuale_Ack_vec);
-% Pendenza = diff(Piccoay(indice_zero-1:indice_zero)./9.81) ./ diff(percentuale_Ack_vec(indice_zero-1:indice_zero));
-% plot(percentuale_Ack_vec,(Piccoay(indice_zero)./9.81)+percentuale_Ack_vec.*Pendenza,'--r');
-% 
-% [Piccoay_ack,IndicePiccoay] = max(Piccoay/9.81);
-% xline(percentuale_Ack_vec(1,IndicePiccoay),'--g');
-% plot(percentuale_Ack_vec(1,IndicePiccoay) , Piccoay_ack , 'xr','MarkerSize',20);
-% lim_min = percentuale_Ack_vec(1);
-% lim_max = percentuale_Ack_vec(end);
-% 
-% ackermann_ott = strcat('Ackermann ottimale =',num2str(percentuale_Ack_vec(1,IndicePiccoay)));
-% ay_max = strcat('$Ay_{max}$ =',num2str(Piccoay_ack));
-% legend('','','',ackermann_ott,ay_max,Interpreter='latex',fontsize=12);
-% set(gca,'Xtick',lim_min:1:lim_max,'XMinorTick','off',XTickLabelRotation = 0);
-% set(gca,'Ytick',YTickLabelRotation = 0);
 

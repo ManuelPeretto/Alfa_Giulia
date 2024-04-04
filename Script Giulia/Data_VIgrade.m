@@ -1,9 +1,8 @@
 clear
 close all
 clc
-%data=readtable("data_ramp_steer.csv");
-%data=readtable("data_manuel_11_03_24.csv");
-data=readtable("data_Manuel_long_13_03_2024.csv");
+
+data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 
 Vehicle.tau = 11.8;
 Vehicle.L = 2.82;
@@ -54,7 +53,7 @@ plot(time,data.Tire_Ground_Surface_Force_Z_R2,linewidth=1.5);
 plot(time,data.Tire_Ground_Surface_Force_Z_L2,linewidth=1.5);
 legend('$F_{Zfl}$','$F_{Zfr}$','$F_{Zrl}$','$F_{Zrr}$',Interpreter='latex',fontsize=16);
 ylabel('$F_z [N]$',Interpreter='latex',fontsize=14);
-xlabel('time [sec]',Interpreter='latex',fontsize=14);
+xlabel('Time [s]',Interpreter='latex',fontsize=14);
 
 massa= 1/9.81 *(data.Tire_Ground_Surface_Force_Z_L1(100) + data.Tire_Ground_Surface_Force_Z_R1(100) + data.Tire_Ground_Surface_Force_Z_L2(100) + data.Tire_Ground_Surface_Force_Z_R2(100));
 
@@ -127,7 +126,7 @@ plot(time,rad2deg(camber_fr),linewidth=1.5);
 plot(time,rad2deg(camber_rl),linewidth=1.5);
 plot(time,rad2deg(camber_rr),linewidth=1.5);
 ylabel('camber angle [deg]',Interpreter='latex',fontsize=14);
-xlabel('time [sec]',Interpreter='latex',fontsize=14);
+xlabel('Time [s]',Interpreter='latex',fontsize=14);
 legend('front left','front right','rear left','rear right',Interpreter='latex',fontsize=14);
 
 % figure()
