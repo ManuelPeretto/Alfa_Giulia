@@ -49,8 +49,8 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %% select file tir
 
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
+Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
+Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
 
 
 %% Set simulation Time

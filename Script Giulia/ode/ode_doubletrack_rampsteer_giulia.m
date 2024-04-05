@@ -1,10 +1,10 @@
 
 
-function [Alfa,Force,Solution] = ode_doubletrack_rampsteer_giulia(speed,Vehicle,Tyre,omega_steer,choice_linear,tspan,y0,options)
+function [Solution] = ode_doubletrack_rampsteer_giulia(speed,Vehicle,Tyre,omega_steer,choice_linear,tspan,y0,options)
          
 [t,Solutions] = ode45(@(t,y) ode_eoq_doubletrack_rampsteer_giulia(t,y,speed,Vehicle,Tyre,omega_steer,choice_linear),tspan,y0,options);
 
-u = speed;   % Longitudinal speed
+u = speed;          % Longitudinal speed
 v=Solutions(:,1);   % Lateral speed
 r=Solutions(:,2);   % Yaw-Rate
 
@@ -48,7 +48,6 @@ switch choice_linear
     case 4
         n = numel(alfa_fl);
         kappa = zeros(n,1);
-        %gamma = zeros(n,1);
         phit = zeros (n,1);
         U = zeros(n,1) + u;
 
@@ -62,33 +61,32 @@ switch choice_linear
         outMF_rl = mfeval(Tyre.Params_r , [Fzrl kappa alfa_rl +camber_rr phit U] , 111);
         outMF_rr = mfeval(Tyre.Params_r , [Fzrr kappa alfa_rr -camber_rl phit U] , 111);
 
-        Fyfl = -outMF_fl(:,2);   % Lateral Force Front Left
-        Fyfr = -outMF_fr(:,2);   % Lateral Force Front Right
-        Fyrl = -outMF_rl(:,2);   % Lateral Force Rear Left
-        Fyrr = -outMF_rr(:,2);   % Lateral Force Rear Right
+        Fyfl = -outMF_fl(:,2);
+        Fyfr = -outMF_fr(:,2);
+        Fyrl = -outMF_rl(:,2);
+        Fyrr = -outMF_rr(:,2);
 end
 
 
-Force.Fzfl = Fzfl;
-Force.Fzfr = Fzfr;
-Force.Fzrl = Fzrl;
-Force.Fzrr = Fzrr;
+Solution.Fzfl = Fzfl;
+Solution.Fzfr = Fzfr;
+Solution.Fzrl = Fzrl;
+Solution.Fzrr = Fzrr;
 
-Force.Fyfl = Fyfl;
-Force.Fyfr = Fyfr;
-Force.Fyrl = Fyrl;
-Force.Fyrr = Fyrr;
+Solution.Fyfl = Fyfl;
+Solution.Fyfr = Fyfr;
+Solution.Fyrl = Fyrl;
+Solution.Fyrr = Fyrr;
 
-Alfa.alfa_fl = alfa_fl;
-Alfa.alfa_fr = alfa_fr;
-Alfa.alfa_rl = alfa_rl;
-Alfa.alfa_rr = alfa_rr;
-
+Solution.alfa_fl = alfa_fl;
+Solution.alfa_fr = alfa_fr;
+Solution.alfa_rl = alfa_rl;
+Solution.alfa_rr = alfa_rr;
 
 Solution.u=u;
 Solution.v=v;
 Solution.r=r;
-Solution.t=t; % time
+Solution.t=t;
 Solution.delta = delta;
 
 end

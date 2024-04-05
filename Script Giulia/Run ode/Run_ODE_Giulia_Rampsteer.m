@@ -103,9 +103,9 @@ for ii=1:numel(V_vec)
     
     switch choice_model
         case {1 2}
-         [Alfa,Force,Solution] = ode_singletrack_rampsteer_giulia(V,omega_steer,Vehicle,Tyre,tspan, y0,options,choice_model);
+         [Solution] = ode_singletrack_rampsteer_giulia(V,omega_steer,Vehicle,Tyre,tspan, y0,options,choice_model);
         case {3 4}
-         [Alfa,Force,Solution] = ode_doubletrack_rampsteer_giulia(V,Vehicle,Tyre,omega_steer,choice_model,tspan,y0,options);
+         [Solution] = ode_doubletrack_rampsteer_giulia(V,Vehicle,Tyre,omega_steer,choice_model,tspan,y0,options);
     end     
   
     %%
