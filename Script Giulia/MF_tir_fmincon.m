@@ -80,7 +80,7 @@ Tyre_params.LKYC=Tyre_params.LKYC*param(5);
 outMF= mfeval(Tyre_params, [input_struct.Fz input_struct.Kappa input_struct.alfa input_struct.camber input_struct.phit input_struct.Vx] , 111);
 
 scatter3(input_struct.alfa,input_struct.Fz,outMF(:,2),30,'filled');
- xlabel('$\alpha [rad]$',Interpreter='latex',fontsize=16);
+xlabel('$\alpha [rad]$',Interpreter='latex',fontsize=16);
 ylabel('$F_z [N]$',Interpreter='latex',fontsize=14);
 zlabel('$F_y [N]$',Interpreter='latex',fontsize=14);
 legend('$F_y (Data)$','$F_y (MFeval)$','$F_y (Fitted)$',Interpreter='latex',fontsize=16);
