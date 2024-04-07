@@ -40,8 +40,10 @@ TyreData.IA = camber_fl;
 TyreData.SR = Kappa_fl;
 TyreData.Vx = zeros(N,1) + 60/3.6;
 TyreData.Phit = zeros(N,1);
-%TyreData.P = ;
-%TyreData.W = ;
+TyreData.P = zeros(N,1)+25000;
+%TyreData.W = zeros(N,1)+;
+
+INPUTS = [TyreData.Fz TyreData.SR TyreData.SA TyreData.IA TyreData.Phit TyreData.Vx TyreData.P];
 
 
 % Load a TIR file as a starting point for the fitting
@@ -141,35 +143,36 @@ filt = indFz & indIA & indP;
 
 % Create data inputs to do a data replay with MFeval and check the fitting
 % quality
-evalFz1 = ones(100,1)*1200;
-evalFz2 = ones(100,1)*1650;
-evalFz3 = ones(100,1)*760;
-evalNull = zeros(100, 1);
-evalSA = linspace(-0.23,0.23)';
-evalVx = ones(100, 1)*16;
-evalP = ones(100,1)*83160;
+% % % evalFz1 = ones(100,1)*1200;
+% % % evalFz2 = ones(100,1)*1650;
+% % % evalFz3 = ones(100,1)*760;
+% % % evalNull = zeros(100, 1);
+% % % evalSA = linspace(-0.23,0.23)';
+% % % evalVx = ones(100, 1)*16;
+% % % evalP = ones(100,1)*83160;
 
-MFinput1 = [evalFz1 evalNull evalSA evalNull evalNull evalVx evalP];
-MFinput2 = [evalFz2 evalNull evalSA evalNull evalNull evalVx evalP];
-MFinput3 = [evalFz3 evalNull evalSA evalNull evalNull evalVx evalP];
+% MFinput1 = [evalFz1 evalNull evalSA evalNull evalNull evalVx evalP];
+% MFinput2 = [evalFz2 evalNull evalSA evalNull evalNull evalVx evalP];
+% MFinput3 = [evalFz3 evalNull evalSA evalNull evalNull evalVx evalP];
 
 % Call mfeval with the optimized parameters
-MFout1 = mfeval(OptimParameterSet,MFinput1,111);
-MFout2 = mfeval(OptimParameterSet,MFinput2,111);
-MFout3 = mfeval(OptimParameterSet,MFinput3,111);
+MFout1 = mfeval(OptimParameterSet,INPUTS,111);
+
+MFout2 = mfeval(InitalParameterSet,INPUTS,111);
+
 
 % Plot data vs Fitted Model
 figure
 hold on
-plot(TyreData.SA(filt), TyreData.Fy(filt),'o');
-plot(MFout1(:,8), MFout1(:,2),'-', 'linewidth', 2);
-plot(MFout2(:,8), MFout2(:,2),'-', 'linewidth', 2);
-plot(MFout3(:,8), MFout3(:,2),'-', 'linewidth', 2);
+plot(TyreData.SA, TyreData.Fy,'o');
+plot(TyreData.SA, MFout1(:,2),'-', 'linewidth', 2);
+plot(TyreData.SA, MFout2(:,2),'-', 'linewidth', 2);
+%plot(MFout3(:,8), MFout3(:,2),'-', 'linewidth', 2);
 grid on
 xlabel('Slip Angle [rad]');
 ylabel('Lateral Force [N]');
 title('PureFy fitting');
-legend('Data', 'Model: Fz=1200N', 'Model: Fz=1650N', 'Model: Fz= 760N');
+legend('Data','fitted','original');
 
 
 
@@ -191,7 +194,7 @@ function [ error ] = costFyPure(X, Data, ParameterSet)
 % error = costFyPure(Xstructure, TableData, ParameterSet)
 
 % Create the Inputs for MFeval
-INPUTS = [Data.Fz Data.SR Data.SA Data.IA Data.Phit Data.Vx Data.P Data.W];
+INPUTS = [Data.Fz Data.SR Data.SA Data.IA Data.Phit Data.Vx Data.P];
 
 % Select use mode 211. For more info go to the documentation of MFeval
 USE_MODE = 211;
