@@ -11,16 +11,16 @@ addpath(genpath(path_giulia));
 Vehicle.m = 1750;                                   % total mass in Kg
 Vehicle.J = 2129;                                   % rotational inertia of yaw motion
 Vehicle.L = 2.82;                                   % Wheelbase
-Vehicle.wd = 0.533;                           % Weight distribution
+Vehicle.wd = 0.533;                                 % Weight distribution
 Vehicle.b = Vehicle.wd*Vehicle.L;                   % distance from gravity center to rear axle
 Vehicle.a = Vehicle.L-Vehicle.b;                    % distance from gravity center to front axle
 Vehicle.tau = 11.8;
 
-Vehicle.Wf = 1.557;             % Wheel track front 
-Vehicle.Wr = 1.625;             % Wheel track rear
-Vehicle.h = 0.592;              % Gravity center height
-Vehicle.dr = 0.086;             % height of rear roll center
-Vehicle.df = 0.041;             % height of front roll center
+Vehicle.Wf = 1.557;                                 % Wheel track front 
+Vehicle.Wr = 1.625;                                 % Wheel track rear
+Vehicle.h = 0.592;                                  % Gravity center height
+Vehicle.dr = 0.086;                                 % height of rear roll center
+Vehicle.df = 0.041;                                 % height of front roll center
 Vehicle.dd = Vehicle.df+(Vehicle.dr-Vehicle.df)*Vehicle.a/Vehicle.L;
 
 Vehicle.ks_f = 20.8e3;                             % N/m % front suspension stiffness
@@ -125,12 +125,7 @@ for ii=1:numel(V_vec)
     plot(ay/9.81,rad2deg(sterzo_din),'color',colorlist(ii,:),LineWidth=1.5);
     
     jj=jj+1;
-    %leg_V(jj) = strcat('$\delta_D(u =',num2str(V_vec(ii)),' [km/h])$');
-    leg_V(jj) = strcat('$ODE (',num2str(tmax),' [sec])$');
-
-    %scatter(ay(2,1)./9.81,mean(Grad(ii,50:1000)),'MarkerEdgeColor',colorlist(ii,:),'MarkerFaceColor',colorlist(ii,:),LineWidth=2);
-    %jj=jj+1;
-    %leg_V(jj) = strcat('$\frac{d(\delta_D)}{d(ay/g)} = ' , num2str(mean(Grad(ii,50:1000))),' [deg/g]$');
+    leg_V(jj) = strcat('$ODE (',num2str(tmax),' [s])$');
  end    
 
 %% Graph
@@ -144,12 +139,5 @@ ylim([0 8]);
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
-%txt = [' $\zeta = ',num2str(rad2deg(Vehicle.Gradiente)),' [deg/g]$'];
-%subtitle(txt,Interpreter='latex',fontsize=12);
-%xline(Tyre.mu,'--',Color='red');
-%mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];
-%
-%leg_V(end+1) = '';
-%leg_V(end+1) = mu_txt;
 legend(leg_V,Interpreter='latex',fontsize=12);
 
