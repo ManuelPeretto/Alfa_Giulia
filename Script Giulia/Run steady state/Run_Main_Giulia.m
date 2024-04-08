@@ -187,19 +187,11 @@ grid on
 set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
-%xlim([0 Tyre.mu+0.1]);
 xlim([0 1.2]);
 ylim([0 5]);
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
-%txt = [' $\zeta = ',num2str(rad2deg(Vehicle.Gradiente)),' [deg/g]$'];
-%subtitle(txt,Interpreter='latex',fontsize=12);
-%xline(Tyre.mu,'--',Color='red');
-%mu_txt = [' $\mu$ = ' , num2str(Tyre.mu)];
-
-%leg_V(end+1) = '';
-%leg_V(end+1) = mu_txt;
 legend(leg_V,Interpreter='latex',fontsize=12);
 
 % figure

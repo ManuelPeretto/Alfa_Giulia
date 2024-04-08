@@ -7,28 +7,28 @@ currentFile = mfilename('fullpath');
 path_giulia = fileparts(pathstr);
 addpath(genpath(path_giulia));
 
-%% Parameters Input
+%% Vehicle Parameters
 Vehicle.m = 1449;                                   % total mass in Kg
 Vehicle.J = 2129;                                   % rotational inertia of yaw motion
 Vehicle.L = 2.82;                                   % Wheelbase
 Vehicle.wd = 0.533687943;                           % Weight distribution
 Vehicle.b = Vehicle.wd*Vehicle.L;                   % distance from gravity center to rear axle
 Vehicle.a = Vehicle.L-Vehicle.b;                    % distance from gravity center to front axle
-Vehicle.tau = 11.8;
+Vehicle.tau = 11.8;                                 % Steering ratio (Not used)
 
-Vehicle.Wf = 1.557;             % Wheel track front 
-Vehicle.Wr = 1.625;             % Wheel track rear
-Vehicle.h = 0.592;              % Gravity center height
-Vehicle.dr = 0.086;             % height of rear roll center
-Vehicle.df = 0.041;             % height of front roll center
+Vehicle.Wf = 1.557;                                 % Wheel track front 
+Vehicle.Wr = 1.625;                                 % Wheel track rear
+Vehicle.h = 0.592;                                  % Gravity center height
+Vehicle.dr = 0.086;                                 % height of rear roll center
+Vehicle.df = 0.041;                                 % height of front roll center
 Vehicle.dd = Vehicle.df+(Vehicle.dr-Vehicle.df)*Vehicle.a/Vehicle.L;
 
-Vehicle.ks_f = 20.8e3;                             % N/m % front suspension stiffness
-Vehicle.k_antiroll_f = 4.168e4;                   % front rollbar stiffness
+Vehicle.ks_f = 20.8e3;                              % N/m % front suspension stiffness
+Vehicle.k_antiroll_f = 4.168e4;                     % front rollbar stiffness
 Vehicle.k_roll_f = Vehicle.Wf^2 / 2 * (Vehicle.ks_f + 2*Vehicle.k_antiroll_f); % front roll stiffness
 
-Vehicle.ks_r = 28.8e3;                             % N/m % rear suspension stiffness
-Vehicle.k_antiroll_r = 1.1709e+04;                % rear rollbar stiffness
+Vehicle.ks_r = 28.8e3;                              % N/m % rear suspension stiffness
+Vehicle.k_antiroll_r = 1.1709e+04;                  % rear rollbar stiffness
 Vehicle.k_roll_r = Vehicle.Wr^2 / 2 * (Vehicle.ks_r + 2 * Vehicle.k_antiroll_r); % rear roll stiffness
 
 Vehicle.Kf_K = Vehicle.k_roll_f / (Vehicle.k_roll_f + Vehicle.k_roll_r);   % (Kf / Ktotale) Roll stiffness distribution to front axle
@@ -75,6 +75,7 @@ Vehicle.Gradiente = ( Vehicle.b * Tyre.CSr - Vehicle.a * Tyre.CSf ) / ( Tyre.CSr
 Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 %%
 N=300; % Number of simulation points
+
 Vehicle.camber_fl = zeros(N,1);
 Vehicle.camber_fr = zeros(N,1);
 Vehicle.camber_rl = zeros(N,1);
@@ -84,7 +85,7 @@ switch Test
         % Simulation Inputs
         deltaf_vec=linspace(0,15,N);
         V_vec=[30:30:120];
-
+        % Run
         run("Rampsteer.m")
 
     case 2 % Rampspeed
@@ -92,15 +93,15 @@ switch Test
         Vmax = 120;   % [km/h]  Maximum speed
         V_vec=linspace(Vmin,Vmax,N)./3.6; % [m/s]
         deltaf = [5:5:20];   % [deg]
-
-        run("Rampsteer.m")
+        % Run
+        run("Rampspeed.m")
 
     case 3 % ConstantRadius
         Vmin = 1;     % [km/h]  Minimum speed
         Vmax = 120;   % [km/h]  Maximum speed
         V_vec=linspace(Vmin,Vmax,N)./3.6; % [m/s]
         R = [100,90,80,70];
-
+        % Run
         run("Constant_radius.m")
 end
 
