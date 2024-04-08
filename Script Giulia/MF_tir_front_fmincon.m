@@ -1,20 +1,15 @@
 clear
 close all
 clc
-%data=readtable("data_Manuel_19_02_2024.csv");
-%data=readtable("data_Manuel_11_03_24.csv");
-data=readtable("data_Manuel_long_13_03_2024.csv");
+
+data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 
 currentFile = mfilename('fullpath');
-[pathstr, ~, ~] = fileparts(currentFile);
-addpath(genpath(pathstr));
+[path_giulia, ~, ~] = fileparts(currentFile);
+addpath(genpath(path_giulia));
 
-
-Vehicle.tau = 12.6;
-Vehicle.L = 2.82;
-
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
+Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir"));
+%Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir"));
 
 time = data.time_TIME;
 
@@ -23,30 +18,18 @@ speed= 60;
 
 alfa_fl = data.Tire_Lateral_Slip_Without_Lag_L1;
 alfa_fr = data.Tire_Lateral_Slip_Without_Lag_R1;
-alfa_rl = data.Tire_Lateral_Slip_Without_Lag_L2;
-alfa_rr = data.Tire_Lateral_Slip_Without_Lag_R2;
 
 Kappa_fl = data.Tire_Longitudinal_Slip_Without_Lag_L1;
 Kappa_fr = data.Tire_Longitudinal_Slip_Without_Lag_R1;
-Kappa_rl = data.Tire_Longitudinal_Slip_Without_Lag_L2;
-Kappa_rr = data.Tire_Longitudinal_Slip_Without_Lag_R2;
 
 camber_fl = data.wheel_angles_camber_L1;
 camber_fr = data.wheel_angles_camber_R1;
-camber_rl = data.wheel_angles_camber_L2;
-camber_rr = data.wheel_angles_camber_R2;
 
 Fz_fl = data.Tire_Ground_Surface_Force_Z_L1;
 Fz_fr = data.Tire_Ground_Surface_Force_Z_R1;
-Fz_rl = data.Tire_Ground_Surface_Force_Z_L2;
-Fz_rr = data.Tire_Ground_Surface_Force_Z_R2;
-
 
 Fy_fl_data = data.Tire_Ground_Surface_Force_Y_L1;
 Fy_fr_data = data.Tire_Ground_Surface_Force_Y_R1;
-Fy_rl_data = data.Tire_Ground_Surface_Force_Y_L2;
-Fy_rr_data = data.Tire_Ground_Surface_Force_Y_R2;
-
 
 %%
 Vx = ones (n,1)*(speed./3.6);
