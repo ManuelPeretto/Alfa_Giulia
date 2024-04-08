@@ -119,15 +119,15 @@ PRESMAX                  = 260000           $Minimum valid tyre inflation pressu
 $-------------------------------------------------vertical_force_range
 [VERTICAL_FORCE_RANGE]
 FZMIN                    = 100               $Minimum allowed wheel load         
-FZMAX                    = 12000              $Maximum allowed wheel load         
+FZMAX                    = 12000             $Maximum allowed wheel load         
 $------------------------------------------------------long_slip_range
 [LONG_SLIP_RANGE]
 KPUMIN                   = -1.0              $Minimum valid wheel slip         
 KPUMAX                   = 1.0               $Maximum valid wheel slip         
 $-----------------------------------------------------slip_angle_range
 [SLIP_ANGLE_RANGE]
-ALPMIN                   = -0.523599              $Minimum valid slip angle         
-ALPMAX                   = 0.523599               $Maximum valid slip angle         
+ALPMIN                   = -0.523599         $Minimum valid slip angle         
+ALPMAX                   = 0.523599          $Maximum valid slip angle         
 $-----------------------------------------------inclination_slip_range
 [INCLINATION_ANGLE_RANGE]
 CAMMIN                   = -0.17453          $Minimum valid camber angle         
@@ -141,11 +141,11 @@ LEX                      = 1.0                    $Scale factor of Fx curvature 
 LKX                      = 1.3                    $Scale factor of Fx slip stiffness
 LHX                      = 1.0                    $Scale factor of Fx horizontal shift
 LVX                      = 1.0                    $Scale factor of Fx vertical shift
-LCY                      = 1.0                    $Scale factor of Fy shape factor
-LMUY                     = 0.93                   $Scale factor of Fy peak friction coefficient 
-LEY                      = 1.0                    $Scale factor of Fy curvature factor
-LKY                      = 1.4                    $Scale factor of Fy cornering stiffness (NEW 1.6)
-LKYC                     = 1.0                    $Scale factor of Fy camber stiffness
+LCY                      = 0.9816                 $Scale factor of Fy shape factor
+LMUY                     = 0.941                  $Scale factor of Fy peak friction coefficient 
+LEY                      = 0.9077                 $Scale factor of Fy curvature factor
+LKY                      = 0.8987                 $Scale factor of Fy cornering stiffness (NEW 1.6)
+LKYC                     = 1.0335                 $Scale factor of Fy camber stiffness
 LKZC                     = 1.0                    $Scale factor of Mz camber stiffness
 LHY                      = 1.0                    $Scale factor of Fy horizontal shift
 LVY                      = 1.0                    $Scale factor of Fy vertical shift

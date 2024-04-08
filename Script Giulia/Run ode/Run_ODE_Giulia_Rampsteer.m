@@ -49,8 +49,8 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %% select file tir
 
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir");
+Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
+Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
 
 %% Rampsteer simulation
 
@@ -73,13 +73,13 @@ Vehicle.Grad_sterzo = 1/Tyre.CSnormalizzata_front - 1/Tyre.CSnormalizzata_rear;
 
 %% 
 sf=deg2rad(15);
-tmax = 5;
+tmax = 60;
 omega_steer=sf/tmax;     % [rad/sec]
 tspan = [0:omega_steer:tmax];
 N=length(tspan);
 
 %%
-data=readtable("data_Manuel_long_13_03_2024.csv");
+data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
 Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_L1,tspan');
@@ -140,7 +140,7 @@ set(gca,'TickLabelInterpreter','latex');
 ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 xlim([0 Tyre.mu+0.1]);
-ylim([0 5]);
+ylim([0 8]);
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);

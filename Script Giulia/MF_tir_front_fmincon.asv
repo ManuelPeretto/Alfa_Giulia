@@ -62,8 +62,8 @@ Tyre_params.LKY=Tyre_params.LKY*param(2);
 Tyre_params.LEY=Tyre_params.LEY*param(3);
 Tyre_params.LCY=Tyre_params.LCY*param(4);
 Tyre_params.LKYC=Tyre_params.LKYC*param(5);
-outMF= mfeval(Tyre_params, [input_struct.Fz input_struct.Kappa input_struct.alfa input_struct.camber input_struct.phit input_struct.Vx] , 111);
 %outMF= mfeval(Tyre_params, [input_struct.Fz input_struct.Kappa input_struct.alfa input_struct.camber input_struct.phit input_struct.Vx] , 111);
+outMF= mfeval(Tyre_params, [input_struct.Fz input_struct.Kappa input_struct.alfa input_struct.camber input_struct.phit input_struct.Vx] , 111);
 
 scatter3(input_struct.alfa,input_struct.Fz,outMF(:,2),30,'filled');
 xlabel('$\alpha [rad]$',Interpreter='latex',fontsize=16);

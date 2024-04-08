@@ -49,12 +49,11 @@ Vehicle.d = (Vehicle.Kf_K * ( Vehicle.h - Vehicle.dd ) / Vehicle.h) + (Vehicle.b
 
 %% select file tir
 
-Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
-Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
-
+Tyre.Params_f = mfeval.readTIR(strcat(path_giulia,"\file tir\FRONT_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
+Tyre.Params_r = mfeval.readTIR(strcat(path_giulia,"\file tir\REAR_V2Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V2.tir"));
 
 %% Set simulation Time
-dt=0.01;    % time step [s]
+dt=0.1;    % time step [s]
 tMax=60;   % final time [s]
 
 tvec=[0:dt:tMax]; % generate time vector
@@ -163,7 +162,6 @@ for ii=1:numel(V_vec)
     % Plot understeer gradient
     ay = Solution.r .* Solution.u;
 
-    % Formula (2) Canton pag.5.
     sterzo_din = deg2rad(deltaf_vec) - ((Vehicle.L.*ay)./(Solution.u.^2));
     
     Grad(ii,:) = (diff(rad2deg(sterzo_din))./diff(ay./9.81));
@@ -189,7 +187,7 @@ ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 %xlim([0 Tyre.mu+0.1]);
 xlim([0 1.2]);
-ylim([0 5]);
+ylim([0 8]);
 yline(0,'--');
 
 title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);

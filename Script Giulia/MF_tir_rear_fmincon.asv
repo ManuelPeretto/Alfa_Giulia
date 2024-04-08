@@ -36,12 +36,11 @@ Fy_rr_data = data.Tire_Ground_Surface_Force_Y_R2(filter:end);
 %%
 Vx = ones (n,1)*(speed./3.6);
 
-x0=[1,1,1,1,1,1,1];
-lb=[0.8,0.9,-5,0.7,0.9,0.7,0.7];
-ub=[1.2,1.3,+5,1.3,1.3,1.3,1.3];
+x0=[1,1,1,1];
+lb=[0.8,0.5,-5,0.7];
+ub=[1.2,1.3,+5,1.3];
 %%
-%input_struct = struct('Fz',Fz_rl,'Kappa',Kappa_rl,'alfa',alfa_rl,'camber',-camber_rl,'phit',0*alfa_rl,'Vx',Vx);
-input_struct = struct('Fz',Fz_rl,'Kappa',Kappa_rl,'alfa',alfa_rl,'camber',+camber_rl,'phit',0*alfa_rl,'Vx',Vx);
+input_struct = struct('Fz',Fz_rl,'Kappa',Kappa_rl,'alfa',alfa_rl,'camber',-camber_rl,'phit',0*alfa_rl,'Vx',Vx);
 
 %%
 Tyre_params=Tyre.Params_r;
