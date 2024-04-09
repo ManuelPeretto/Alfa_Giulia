@@ -1,5 +1,6 @@
 function app = f_runmodel(app)
 addpath 'C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\app\app_model_functions'
+addpath 'C:\Users\manue\Documents\GitHub\Alfa_Giulia\Script Giulia\Functions'
 Solution = table;
 Vehicle = f_defineVehicle(); % to define
 Vehicle.choice_approx = app.Cos1CheckBox.Value;

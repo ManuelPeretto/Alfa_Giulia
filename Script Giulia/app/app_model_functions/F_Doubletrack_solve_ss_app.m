@@ -17,10 +17,10 @@ switch choice_model
         ay = U * x(2);           % Lateral accellaration
         
         ik= Vehicle.ik;
-        camber_fl = Vehicle.camber_fl(ik);
-        camber_fr = Vehicle.camber_fr(ik);
-        camber_rl = Vehicle.camber_rl(ik);
-        camber_rr = Vehicle.camber_rr(ik);
+        camber_fl = 0;
+        camber_fr = 0;
+        camber_rl = 0;
+        camber_rr = 0;
 
         Fzfl = Vehicle.m * 9.81 * Vehicle.b / (2*Vehicle.L) + Vehicle.m * ay * Vehicle.h *    Vehicle.d  / (2*Vehicle.Wf);   % Radial Force on front left tyre
         Fzfr = Vehicle.m * 9.81 * Vehicle.b / (2*Vehicle.L) - Vehicle.m * ay * Vehicle.h *    Vehicle.d  / (2*Vehicle.Wf);   % Radial Force on front right tyre
