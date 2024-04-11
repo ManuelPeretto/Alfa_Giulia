@@ -3,7 +3,7 @@ close all
 clc
 %data=readtable("data_Manuel_19_02_2024.csv");
 %data=readtable("data_Manuel_11_03_24.csv");
-data=readtable("data_Manuel_long_13_03_2024.csv");
+data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 
 currentFile = mfilename('fullpath');
 [pathstr, ~, ~] = fileparts(currentFile);
@@ -13,8 +13,8 @@ addpath(genpath(pathstr));
 Vehicle.tau = 12.6;
 Vehicle.L = 2.82;
 
-Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
-Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
+%Tyre.Params_f = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\FRONT_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
+%Tyre.Params_r = mfeval.readTIR("C:\Users\manue\Desktop\Script Giulia\file tir\REAR_V1Pirelli_Cinturato_AR_Giulia_2.2_JTD_150_AT8_DC_LMUX_OK_LMUY_V1.tir");
 
 time = data.time_TIME;
 
@@ -38,32 +38,32 @@ alfa_rr = data.Tire_Lateral_Slip_Without_Lag_R2;
 alfa_f = -(alfa_fl + alfa_fr) ./ 2;
 alfa_r = -(alfa_rl + alfa_rr) ./ 2;
 
-% figure
-% hold on
-% grid on
-% plot((ay./9.81),rad2deg(alfa_f-alfa_r));
-% %plot((ay./9.81),rad2deg(sterzo_din));
-% set(gca,'TickLabelInterpreter','latex');
-% ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
-% xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
-% xlim([0 mu+0.1]);
-% title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
-% txt = ['Rampsteer 60 [km/h]'];
-% subtitle(txt,Interpreter='latex',fontsize=14);
-% Grad = (diff(rad2deg(sterzo_din))./diff(ay./9.81));
-% scatter(ay(10),mean(Grad(10:300)),'MarkerEdgeColor','blue','MarkerFaceColor','blue');
-% Grad_txt = ['$\frac{d(\delta_D)}{d(ay/g)}$ = ' , num2str(mean(Grad(10:300))),' [deg/g]'];
-% legend('$\delta_D=\delta - \frac{L}{V^2}*a_y$',Grad_txt,Interpreter='latex',fontsize=14);
-% 
-% 
-% figure()
-% hold on
-% grid on
-% set(gca,'TickLabelInterpreter','latex');
-% gradiente = data.Vehicle_Understeer_Gradient;
-% plot(time,gradiente,linewidth=1.5);
-% ylabel('Understeer gradient [deg/g]',Interpreter='latex',fontsize=14);
-% xlabel('time [sec]',Interpreter='latex',fontsize=14);
+figure
+hold on
+grid on
+plot((ay./9.81),rad2deg(alfa_f-alfa_r));
+%plot((ay./9.81),rad2deg(sterzo_din));
+set(gca,'TickLabelInterpreter','latex');
+ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
+xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
+xlim([0 mu+0.1]);
+title('Dinamic steering angle',Interpreter='latex',fontsize=16,LineWidth=5);
+txt = ['Rampsteer 60 [km/h]'];
+subtitle(txt,Interpreter='latex',fontsize=14);
+Grad = (diff(rad2deg(sterzo_din))./diff(ay./9.81));
+scatter(ay(10),mean(Grad(10:300)),'MarkerEdgeColor','blue','MarkerFaceColor','blue');
+Grad_txt = ['$\frac{d(\delta_D)}{d(ay/g)}$ = ' , num2str(mean(Grad(10:300))),' [deg/g]'];
+legend('$\delta_D=\delta - \frac{L}{V^2}*a_y$',Grad_txt,Interpreter='latex',fontsize=14);
+
+
+figure()
+hold on
+grid on
+set(gca,'TickLabelInterpreter','latex');
+gradiente = data.Vehicle_Understeer_Gradient;
+plot(time,gradiente,linewidth=1.5);
+ylabel('Understeer gradient [deg/g]',Interpreter='latex',fontsize=14);
+xlabel('time [sec]',Interpreter='latex',fontsize=14);
 
 
 

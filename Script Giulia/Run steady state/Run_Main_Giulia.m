@@ -63,62 +63,15 @@ N=length(tvec);
 data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
-%Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_R1,tvec');
-%Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_L1,tvec');
-%Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_R2,tvec');
-%Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_L2,tvec');
+Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_R1,tvec');
+Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_L1,tvec');
+Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_R2,tvec');
+Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_L2,tvec');
 
-Vehicle.camber_fl = zeros(N,1);
-Vehicle.camber_fr = zeros(N,1);
-Vehicle.camber_rl = zeros(N,1);
-Vehicle.camber_rr = zeros(N,1);
-
-% p_fl = polyfit(data.Tire_Ground_Surface_Force_Z_L1 , data.wheel_angles_camber_L1 , 1);
-% p_fr = polyfit(data.Tire_Ground_Surface_Force_Z_R1 , data.wheel_angles_camber_R1 , 1);
-% p_rl = polyfit(data.Tire_Ground_Surface_Force_Z_L2 , data.wheel_angles_camber_L2 , 1);
-% p_rr = polyfit(data.Tire_Ground_Surface_Force_Z_R2 , data.wheel_angles_camber_R2 , 1);
-% 
-% Vehicle.camber_fl_test = polyval(p_fl , data.Tire_Ground_Surface_Force_Z_L1);
-% Vehicle.camber_fr_test = polyval(p_fr , data.Tire_Ground_Surface_Force_Z_R1);
-% Vehicle.camber_rl_test = polyval(p_rl , data.Tire_Ground_Surface_Force_Z_L2);
-% Vehicle.camber_rr_test = polyval(p_rr , data.Tire_Ground_Surface_Force_Z_R2);
-% 
-% color_list=colormap(lines(4));
-% figure()
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% plot(time,Vehicle.camber_fl,linewidth=1.5,color=color_list(1,:));
-% plot(time,Vehicle.camber_fl_test,'--',color=color_list(1,:));
-% plot(time,Vehicle.camber_fr,linewidth=1.5,color=color_list(2,:));
-% plot(time,Vehicle.camber_fr_test,'--',color=color_list(2,:));
-% plot(time,Vehicle.camber_rl,linewidth=1.5,color=color_list(3,:));
-% plot(time,Vehicle.camber_rl_test,'--',color=color_list(3,:));
-% plot(time,Vehicle.camber_rr,linewidth=1.5,color=color_list(4,:));
-% plot(time,Vehicle.camber_rr_test,'--',color=color_list(4,:));
-% ylabel('camber angle [rad]',Interpreter='latex',fontsize=14);
-% xlabel('time [sec]',Interpreter='latex',fontsize=14);
-% legend('front left','','front right','','rear left','','rear right','',Interpreter='latex',fontsize=14);
-% 
-% 
-% figure()
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% plot(tvec,Vehicle.camber_fl,linewidth=1.5);
-% plot(tvec,Vehicle.camber_fr,linewidth=1.5);
-% plot(tvec,Vehicle.camber_rl,linewidth=1.5);
-% plot(tvec,Vehicle.camber_rr,linewidth=1.5);
-% ylabel('camber angle [rad]',Interpreter='latex',fontsize=14);
-% xlabel('time [sec]',Interpreter='latex',fontsize=14);
-% legend('front left','front right','rear left','rear right',Interpreter='latex',fontsize=14);
-% 
-% figure(10)
-% hold on
-% set(gca,'TickLabelInterpreter','latex');
-% plot(tvec,Vehicle.Kappa_fl,linewidth=1.5);
-% plot(tvec,Vehicle.Kappa_fr,linewidth=1.5);
-% plot(tvec,Vehicle.Kappa_rl,linewidth=1.5);
-% plot(tvec,Vehicle.Kappa_rr,linewidth=1.5);
-% legend('front left','front right','rear left','rear right',Interpreter='latex',fontsize=14);
+%Vehicle.camber_fl = zeros(N,1);
+%Vehicle.camber_fr = zeros(N,1);
+%Vehicle.camber_rl = zeros(N,1);
+%Vehicle.camber_rr = zeros(N,1);
 
 %% Rampsteer simulation
      

@@ -42,10 +42,15 @@ function dydt = ode_eoq_doubletrack_rampsteer_giulia(t,y,speed,Vehicle,Tyre,omeg
              Fyrr = (Tyre.CSr/2) .* alfa_rr;
          case 4 
 
-             camber_fl = 0;
-             camber_fr = 0;
-             camber_rl = 0;
-             camber_rr = 0;
+             %camber_fl = 0;
+             %camber_fr = 0;
+             %camber_rl = 0;
+             %camber_rr = 0;
+
+             camber_fr = polyval(Vehicle.p_fl , Fzfl);
+             camber_fl = polyval(Vehicle.p_fr , Fzfr);
+             camber_rr = polyval(Vehicle.p_rl , Fzrl);
+             camber_rl = polyval(Vehicle.p_rr , Fzrr);
 
              outMF_fl = mfeval(Tyre.Params_f , [Fzfl 0 alfa_fl -camber_fl 0 u] , 111);
              outMF_fr = mfeval(Tyre.Params_f , [Fzfr 0 alfa_fr +camber_fr 0 u] , 111);

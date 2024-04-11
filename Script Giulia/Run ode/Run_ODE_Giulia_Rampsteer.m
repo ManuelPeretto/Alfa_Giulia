@@ -82,10 +82,15 @@ N=length(tspan);
 data=readtable("C:\Users\manue\Desktop\Simulazioni Vi-grade rampsteer\data_Manuel_long_13_03_2024.csv");
 time = data.time_TIME;
 
-Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_L1,tspan');
-Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_R1,tspan');
-Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_L2,tspan');
-Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_R2,tspan');
+%Vehicle.camber_fl = interp1(time,data.wheel_angles_camber_L1,tspan');
+%Vehicle.camber_fr = interp1(time,data.wheel_angles_camber_R1,tspan');
+%Vehicle.camber_rl = interp1(time,data.wheel_angles_camber_L2,tspan');
+%Vehicle.camber_rr = interp1(time,data.wheel_angles_camber_R2,tspan');
+
+Vehicle.p_fl = polyfit(data.Tire_Ground_Surface_Force_Z_L1 , data.wheel_angles_camber_L1 , 1);
+Vehicle.p_fr = polyfit(data.Tire_Ground_Surface_Force_Z_R1 , data.wheel_angles_camber_R1 , 1);
+Vehicle.p_rl = polyfit(data.Tire_Ground_Surface_Force_Z_L2 , data.wheel_angles_camber_L2 , 1);
+Vehicle.p_rr = polyfit(data.Tire_Ground_Surface_Force_Z_R2 , data.wheel_angles_camber_R2 , 1);
 %%
 
 options= odeset('RelTol',1e-6,'AbsTol',1e-3,'InitialStep',1e-3,'Refine',2,'Stats','on');
