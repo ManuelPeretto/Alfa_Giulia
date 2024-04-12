@@ -136,7 +136,7 @@ figure(1)
 hold on
 grid on
 set(gca,'TickLabelInterpreter','latex');
-ylabel('$\delta_d$ [deg]',Interpreter='latex',fontsize=14);
+ylabel('$\delta_D$ [deg]',Interpreter='latex',fontsize=14);
 xlabel('$\frac{a_y}{g}$',Interpreter='latex',fontsize=16);
 %xlim([0 Tyre.mu+0.1]);
 xlim([0 1.2]);
